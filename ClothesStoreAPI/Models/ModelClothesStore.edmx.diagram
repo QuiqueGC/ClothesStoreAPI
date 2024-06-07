@@ -4,8 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8ab584b6f0a14838b032cb58008bc915" Name="Diagram1">
-        <EntityTypeShape EntityType="ClothesStoreModel.Clothes" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="12376299e28b4d2eb34f91a382bfbf8e" Name="Diagram1">
+        <EntityTypeShape EntityType="ClothesStoreModel.Clothes" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothesStoreModel.ClothesDeleted" Width="1.5" PointX="6" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothesStoreModel.Colors" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothesStoreModel.Size" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothesStoreModel.SizeNumeric" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="ClothesStoreModel.FK_Clothes_Colors1" ManuallyRouted="false" />
+        <AssociationConnector Association="ClothesStoreModel.FK_Clothes_Size1" ManuallyRouted="false" />
+        <AssociationConnector Association="ClothesStoreModel.FK_Clothes_SizeNumeric1" ManuallyRouted="false" />
+        <AssociationConnector Association="ClothesStoreModel.FK_ClothesDeleted_Colors" ManuallyRouted="false" />
+        <AssociationConnector Association="ClothesStoreModel.FK_ClothesDeleted_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="ClothesStoreModel.FK_ClothesDeleted_SizeNumeric" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

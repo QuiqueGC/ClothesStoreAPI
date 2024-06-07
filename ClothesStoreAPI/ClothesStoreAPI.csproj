@@ -163,13 +163,18 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\ClothesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Clothes.cs">
+      <DependentUpon>ModelClothesStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClothesDeleted.cs">
+      <DependentUpon>ModelClothesStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Colors.cs">
       <DependentUpon>ModelClothesStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelClothesStore.Context.cs">
@@ -186,6 +191,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelClothesStore.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Size.cs">
+      <DependentUpon>ModelClothesStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SizeNumeric.cs">
+      <DependentUpon>ModelClothesStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -211,8 +222,8 @@
     <Content Include="Global.asax" />
     <Content Include="Models\ModelClothesStore.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelClothesStore.Context.cs</LastGenOutput>
       <DependentUpon>ModelClothesStore.edmx</DependentUpon>
+      <LastGenOutput>ModelClothesStore.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ModelClothesStore.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

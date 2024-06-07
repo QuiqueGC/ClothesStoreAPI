@@ -12,7 +12,7 @@ namespace ClothesStoreAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Clothes
+    public partial class ClothesDeleted
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -21,6 +21,7 @@ namespace ClothesStoreAPI.Models
         public Nullable<int> idSizeNumeric { get; set; }
         public double price { get; set; }
         public string description { get; set; }
+        public System.DateTime dateDeleted { get; set; }
     
         public virtual Colors Colors { get; set; }
         public virtual Size Size { get; set; }
