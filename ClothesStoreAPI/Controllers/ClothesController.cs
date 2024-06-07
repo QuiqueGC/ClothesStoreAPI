@@ -76,7 +76,7 @@ namespace ClothesStoreAPI.Controllers
             {
                 c.Colors = new Colors { id = c.Colors.id, name = c.Colors.name };
                 c.Size = c.Size != null ? new Size { id = c.Size.id, value = c.Size.value } : null;
-                c.SizeNumeric = c.Size != null ? new SizeNumeric { id = c.SizeNumeric.id, value = c.SizeNumeric.value } : null;
+                c.SizeNumeric = c.SizeNumeric != null ? new SizeNumeric { id = c.SizeNumeric.id, value = c.SizeNumeric.value } : null;
 
             });
 
