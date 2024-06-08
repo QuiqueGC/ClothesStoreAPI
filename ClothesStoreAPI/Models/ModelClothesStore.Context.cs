@@ -12,8 +12,22 @@ namespace ClothesStoreAPI.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
-    public partial class ClothesStoreEntities : DbContext
+    using System.Threading.Tasks;
+
+    public interface IClothesStoreEntities
+    {
+        DbSet<Clothes> Clothes { get; set; }
+        DbSet<ClothesDeleted> ClothesDeleted { get; set; }
+        DbSet<Colors> Colors { get; set; }
+        DbSet<Size> Size { get; set; }
+        DbEntityEntry Entry(object entity);
+        int SaveChanges();
+        Task<int> SaveChangesAsync();
+        void Dispose();
+    }
+
+
+    public partial class ClothesStoreEntities : DbContext, IClothesStoreEntities
     {
         public ClothesStoreEntities()
             : base("name=ClothesStoreEntities")
@@ -30,5 +44,26 @@ namespace ClothesStoreAPI.Models
         public virtual DbSet<ClothesDeleted> ClothesDeleted { get; set; }
         public virtual DbSet<Colors> Colors { get; set; }
         public virtual DbSet<Size> Size { get; set; }
+
+
+        DbEntityEntry IClothesStoreEntities.Entry(object entity)
+        {
+            return this.Entry(entity);
+        }
+
+        int IClothesStoreEntities.SaveChanges()
+        {
+            return this.SaveChanges();
+        }
+
+        async Task<int> IClothesStoreEntities.SaveChangesAsync()
+        {
+            return await this.SaveChangesAsync();
+        }
+
+        void IClothesStoreEntities.Dispose()
+        {
+            this.Dispose();
+        }
     }
 }

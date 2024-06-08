@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB.Colors;
 using ClothesStoreAPI.Repository.DBManager;
 using ClothesStoreAPI.Utils;
 
@@ -19,7 +20,12 @@ namespace ClothesStoreAPI.Controllers
 {
     public class ColorsController : ApiController
     {
-        private ColorsRepository repository = new ColorsRepository();
+        private readonly IColorsRepository repository;
+
+        public ColorsController(IColorsRepository colorsRepository)
+        {
+            repository = colorsRepository;
+        }
 
         // GET: api/Colors
         public IQueryable<Colors> GetColors()

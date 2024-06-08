@@ -12,13 +12,21 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB;
+using ClothesStoreAPI.Repository.DB.Clothes;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ClothesController : ApiController
     {
-        ClothesRepository repository = new ClothesRepository();
+        readonly IClothesRepository repository;
+
+        public ClothesController(IClothesRepository repository)
+        {
+            this.repository = repository;
+        }
+
+
 
         // GET: api/Clothes
         public IQueryable<Clothes> GetClothes()
@@ -89,7 +97,7 @@ namespace ClothesStoreAPI.Controllers
                 else
                 {
                     string msg = await repository.UpdateClothes(id, clothes);
-                    result = setResultFromMsg(msg);
+                    result = SetResultFromMsg(msg);
                 }
             }
             return result;
@@ -109,7 +117,7 @@ namespace ClothesStoreAPI.Controllers
             else
             {
                 string msg = await repository.InsertClothes(clothes);
-                result = setResultFromMsg(msg);
+                result = SetResultFromMsg(msg);
             }
             return result;
         }
@@ -120,11 +128,11 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> DeleteClothes(int id)
         {
             string msg = await repository.DeleteClothes(id);
-            return setResultFromMsg(msg);
+            return SetResultFromMsg(msg);
         }
 
 
-        private IHttpActionResult setResultFromMsg(String msg)
+        private IHttpActionResult SetResultFromMsg(String msg)
         {
             IHttpActionResult result;
             switch (msg)

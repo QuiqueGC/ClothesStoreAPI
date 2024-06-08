@@ -12,13 +12,21 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB;
+using ClothesStoreAPI.Repository.DB.ClothesDeleted;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ClothesDeletedController : ApiController
     {
-        private ClothesDeletedRepository repository = new ClothesDeletedRepository();
+        private readonly IClothesDeletedRepository repository;
+
+        public ClothesDeletedController(IClothesDeletedRepository repository)
+        {
+            this.repository = repository;
+        }
+
+
 
         // GET: api/ClothesDeleted
         public IQueryable<ClothesDeleted> GetClothesDeleted()
@@ -55,13 +63,13 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> RestoreClothes(int id)
         {
             string msg = await repository.RestoreClothes(id);
-            return setResultFromMsg(msg);
+            return SetResultFromMsg(msg);
         }
 
 
 
 
-        private IHttpActionResult setResultFromMsg(String msg)
+        private IHttpActionResult SetResultFromMsg(String msg)
         {
             IHttpActionResult result;
             switch (msg)

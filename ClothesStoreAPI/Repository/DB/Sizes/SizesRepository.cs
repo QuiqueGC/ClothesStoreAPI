@@ -1,4 +1,5 @@
 ﻿using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB.Sizes;
 using ClothesStoreAPI.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,14 @@ using System.Web.Http.Results;
 
 namespace ClothesStoreAPI.Repository.DB
 {
-    public class SizesRepository
+    public class SizesRepository : ISizesRepository
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        private readonly IClothesStoreEntities db;
+
+        public SizesRepository(IClothesStoreEntities db)
+        {
+            this.db = db;
+        }
 
         public IQueryable<Size> GetSizes()
         {
@@ -59,7 +65,7 @@ namespace ClothesStoreAPI.Repository.DB
             catch (DbUpdateException ex)
             {
                 SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = RepositoryUtils.ErrorMessage(sqlException);
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
 
             return msg;
@@ -84,7 +90,7 @@ namespace ClothesStoreAPI.Repository.DB
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
 
@@ -112,7 +118,7 @@ namespace ClothesStoreAPI.Repository.DB
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
             return msg;

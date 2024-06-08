@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ClothesStoreAPI.Utils
 {
-    public static class RepositoryUtils
+    public static class ErrorMessageManager
     {
 
         /// <summary>
@@ -14,9 +14,10 @@ namespace ClothesStoreAPI.Utils
         /// </summary>
         /// <param name="ex">the exception that occurred</param>
         /// <returns>the exception message</returns>
-        public static String ErrorMessage(SqlException ex)
+        public static String GetErrorMessage(SqlException ex)
         {
-            String msg = "";
+            String msg;
+
             switch (ex.Number)
             {
                 case 2:

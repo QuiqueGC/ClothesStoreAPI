@@ -1,4 +1,5 @@
 ﻿using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB.ClothesDeleted;
 using ClothesStoreAPI.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,24 @@ using System.Web.Http.Results;
 
 namespace ClothesStoreAPI.Repository.DB
 {
-    public class ClothesDeletedRepository
+    public class ClothesDeletedRepository : IClothesDeletedRepository
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        private readonly IClothesStoreEntities db;
 
-        public IQueryable<ClothesDeleted> GetClothesDeleted()
+        public ClothesDeletedRepository(IClothesStoreEntities db)
+        {
+            this.db = db;
+        }
+
+        public IQueryable<Models.ClothesDeleted> GetClothesDeleted()
         {
             return db.ClothesDeleted;
         }
 
 
-        public async Task<List<ClothesDeleted>> FindClothesDeletedByName(string name)
+        public async Task<List<Models.ClothesDeleted>> FindClothesDeletedByName(string name)
         {
-            List<ClothesDeleted> clothesDeleted = await db.ClothesDeleted
+            List<Models.ClothesDeleted> clothesDeleted = await db.ClothesDeleted
                 .Where(c => c.name.Contains(name))
                 .ToListAsync();
 
@@ -38,7 +44,7 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<String> RestoreClothes(int id)
         {
             string msg = "Success";
-            ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
+            Models.ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
 
             if (clothesDeleted == null)
             {
@@ -48,7 +54,7 @@ namespace ClothesStoreAPI.Repository.DB
             {
                 try
                 {
-                    Clothes clothes = new Clothes
+                    Models.Clothes clothes = new Models.Clothes
                     {
                         name = clothesDeleted.name,
                         idColor = clothesDeleted.idColor,
@@ -64,7 +70,7 @@ namespace ClothesStoreAPI.Repository.DB
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
 

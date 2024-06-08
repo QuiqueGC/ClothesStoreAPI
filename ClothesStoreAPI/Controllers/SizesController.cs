@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB;
+using ClothesStoreAPI.Repository.DB.Sizes;
 using ClothesStoreAPI.Repository.DBManager;
 using ClothesStoreAPI.Utils;
 
@@ -19,7 +20,14 @@ namespace ClothesStoreAPI.Controllers
 {
     public class SizesController : ApiController
     {
-        SizesRepository repository = new SizesRepository();
+        readonly ISizesRepository repository;
+
+        public SizesController(ISizesRepository repository)
+        {
+            this.repository = repository;
+        }
+
+
 
         // GET: api/Sizes
         public IQueryable<Size> GetSize()
@@ -91,7 +99,7 @@ namespace ClothesStoreAPI.Controllers
                 else
                 {
                     string msg = await repository.UpdateSize(id, size);
-                    result = setResultFromMsg(msg);
+                    result = SetResultFromMsg(msg);
                 }
             }
             return result;
@@ -112,7 +120,7 @@ namespace ClothesStoreAPI.Controllers
             else
             {
                 string msg = await repository.InsertSize(size);
-                result = setResultFromMsg(msg);
+                result = SetResultFromMsg(msg);
             }
             return result;
         }
@@ -124,11 +132,11 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> DeleteSize(int id)
         {
             String msg = await repository.DeleteSize(id);
-            return setResultFromMsg(msg);
+            return SetResultFromMsg(msg);
         }
 
 
-        private IHttpActionResult setResultFromMsg(String msg)
+        private IHttpActionResult SetResultFromMsg(String msg)
         {
             IHttpActionResult result;
             switch (msg)

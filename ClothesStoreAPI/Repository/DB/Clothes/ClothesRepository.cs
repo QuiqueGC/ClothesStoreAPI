@@ -1,4 +1,5 @@
 ﻿using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB.Clothes;
 using ClothesStoreAPI.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,22 @@ using System.Web.Http.Results;
 
 namespace ClothesStoreAPI.Repository.DB
 {
-    public class ClothesRepository
+    public class ClothesRepository : IClothesRepository
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        private readonly IClothesStoreEntities db;
 
-        public IQueryable<Clothes> GetClothes()
+        public ClothesRepository(IClothesStoreEntities db)
+        {
+            this.db = db;
+        }
+
+        public IQueryable<Models.Clothes> GetClothes()
         {
             return db.Clothes;
         }
 
 
-        public async Task<Clothes> GetClothes(int id)
+        public async Task<Models.Clothes> GetClothes(int id)
         {
             return await db.Clothes
                 .Include("Colors")
@@ -34,16 +40,16 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        public async Task<List<Clothes>> FindClothesByName(string name)
+        public async Task<List<Models.Clothes>> FindClothesByName(string name)
         {
-            List<Clothes> clothes = await db.Clothes
+            List<Models.Clothes> clothes = await db.Clothes
                 .Where(c => c.name.Contains(name))
                 .ToListAsync();
 
             return clothes;
         }
 
-        public async Task<String> UpdateClothes(int id, Clothes clothes)
+        public async Task<String> UpdateClothes(int id, Models.Clothes clothes)
         {
             string msg = "Success";
             db.Entry(clothes).State = EntityState.Modified;
@@ -65,14 +71,14 @@ namespace ClothesStoreAPI.Repository.DB
             catch (DbUpdateException ex)
             {
                 SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = RepositoryUtils.ErrorMessage(sqlException);
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
 
             return msg;
 
         }
 
-        public async Task<String> InsertClothes(Clothes clothes)
+        public async Task<String> InsertClothes(Models.Clothes  clothes)
         {
             string msg = "Success";
 
@@ -92,7 +98,7 @@ namespace ClothesStoreAPI.Repository.DB
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
 
@@ -102,7 +108,7 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<String> DeleteClothes(int id)
         {
             string msg = "Success";
-            Clothes clothes = await db.Clothes.FindAsync(id);
+            Models.Clothes clothes = await db.Clothes.FindAsync(id);
             if (clothes == null)
             {
                 msg = "NotFound";
@@ -117,13 +123,13 @@ namespace ClothesStoreAPI.Repository.DB
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
             return msg;
         }
 
-        private bool ClothesAlreadyExist(Clothes clothes)
+        private bool ClothesAlreadyExist(Models.Clothes clothes)
         {
             return db.Clothes.Count(
                 c => c.name == clothes.name &&

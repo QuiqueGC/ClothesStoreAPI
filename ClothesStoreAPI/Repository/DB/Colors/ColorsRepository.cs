@@ -14,9 +14,15 @@ using System.Xml.Linq;
 
 namespace ClothesStoreAPI.Repository.DBManager
 {
-    public class ColorsRepository
+
+    public class ColorsRepository: DB.Colors.IColorsRepository
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        private readonly IClothesStoreEntities db;
+
+        public ColorsRepository(IClothesStoreEntities db)
+        {
+            this.db = db;
+        }
 
         public IQueryable<Colors> GetColors()
         {
@@ -60,7 +66,7 @@ namespace ClothesStoreAPI.Repository.DBManager
             catch (DbUpdateException ex)
             {
                 SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = RepositoryUtils.ErrorMessage(sqlException);
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
 
             return msg;
@@ -86,10 +92,10 @@ namespace ClothesStoreAPI.Repository.DBManager
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
-            
+
             return msg;
         }
 
@@ -114,7 +120,7 @@ namespace ClothesStoreAPI.Repository.DBManager
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
             return msg;
@@ -124,7 +130,7 @@ namespace ClothesStoreAPI.Repository.DBManager
         public void DisposeDB()
         {
             db.Dispose();
-        } 
+        }
 
 
         private bool ColorsExists(int id)
