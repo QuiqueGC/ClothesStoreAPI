@@ -18,11 +18,11 @@ namespace ClothesStoreAPI.Repository.DB
     public class ClothesRepository : IClothesRepository
     {
         private readonly IClothesStoreEntities db;
-
         public ClothesRepository(IClothesStoreEntities db)
         {
             this.db = db;
         }
+
 
         public IQueryable<Models.Clothes> GetClothes()
         {
@@ -49,6 +49,7 @@ namespace ClothesStoreAPI.Repository.DB
             return clothes;
         }
 
+
         public async Task<String> UpdateClothes(int id, Models.Clothes clothes)
         {
             string msg = "Success";
@@ -73,10 +74,9 @@ namespace ClothesStoreAPI.Repository.DB
                 SqlException sqlException = (SqlException)ex.InnerException.InnerException;
                 msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
-
             return msg;
-
         }
+
 
         public async Task<String> InsertClothes(Models.Clothes  clothes)
         {
@@ -101,13 +101,14 @@ namespace ClothesStoreAPI.Repository.DB
                     msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
-
             return msg;
         }
+
 
         public async Task<String> DeleteClothes(int id)
         {
             string msg = "Success";
+
             Models.Clothes clothes = await db.Clothes.FindAsync(id);
             if (clothes == null)
             {
@@ -129,6 +130,7 @@ namespace ClothesStoreAPI.Repository.DB
             return msg;
         }
 
+
         private bool ClothesAlreadyExist(Models.Clothes clothes)
         {
             return db.Clothes.Count(
@@ -140,10 +142,12 @@ namespace ClothesStoreAPI.Repository.DB
                 ) > 0;
         }
 
+
         private bool ClothesExists(int id)
         {
             return db.Clothes.Count(c => c.id == id) > 0;
         }
+
 
         public void DisposeDB()
         {

@@ -23,15 +23,18 @@ namespace ClothesStoreAPI.Repository.DB
             this.db = db;
         }
 
+
         public IQueryable<Size> GetSizes()
         {
             return db.Size;
         }
 
+
         public async Task<Size> GetSizeById(int id)
         {
             return await db.Size.FindAsync(id);
         }
+
 
         public async Task<Size> GetClothesByIdSize(int id)
         {
@@ -67,9 +70,9 @@ namespace ClothesStoreAPI.Repository.DB
                 SqlException sqlException = (SqlException)ex.InnerException.InnerException;
                 msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
-
             return msg;
         }
+
 
         public async Task<String> InsertSize(Size size)
         {
@@ -93,7 +96,6 @@ namespace ClothesStoreAPI.Repository.DB
                     msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
-
             return msg;
         }
 
@@ -125,21 +127,21 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-
         public void DisposeDB()
         {
             db.Dispose();
         }
+
 
         private bool SizeValueAlreadyExist(string sizeValue)
         {
             return db.Size.Count(c => c.value == sizeValue) > 0;
         }
 
+
         private bool SizeExists(int id)
         {
             return db.Size.Count(e => e.id == id) > 0;
         }
-
     }
 }

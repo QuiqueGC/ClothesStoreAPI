@@ -8,7 +8,6 @@ namespace ClothesStoreAPI.Utils
 {
     public static class ErrorMessageManager
     {
-
         /// <summary>
         /// Extracts error message from the relevant exception
         /// </summary>

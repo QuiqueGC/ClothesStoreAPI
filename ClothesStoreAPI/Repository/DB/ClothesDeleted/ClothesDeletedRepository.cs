@@ -23,6 +23,7 @@ namespace ClothesStoreAPI.Repository.DB
             this.db = db;
         }
 
+
         public IQueryable<Models.ClothesDeleted> GetClothesDeleted()
         {
             return db.ClothesDeleted;
@@ -39,11 +40,10 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-
-
         public async Task<String> RestoreClothes(int id)
         {
             string msg = "Success";
+
             Models.ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
 
             if (clothesDeleted == null)
@@ -73,9 +73,9 @@ namespace ClothesStoreAPI.Repository.DB
                     msg = ErrorMessageManager.GetErrorMessage(sqlException);
                 }
             }
-
             return msg;
         }
+
 
         public void DisposeDB()
         {

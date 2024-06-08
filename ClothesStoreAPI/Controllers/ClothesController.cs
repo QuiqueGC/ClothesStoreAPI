@@ -27,12 +27,12 @@ namespace ClothesStoreAPI.Controllers
         }
 
 
-
         // GET: api/Clothes
         public IQueryable<Clothes> GetClothes()
         {
             return repository.GetClothes();
         }
+
 
         // GET: api/Clothes/5
         [ResponseType(typeof(Clothes))]
@@ -52,6 +52,7 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
+
 
         /// <summary>
         /// get a list of clothes filtered by name
@@ -149,6 +150,7 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
+
 
         protected override void Dispose(bool disposing)
         {

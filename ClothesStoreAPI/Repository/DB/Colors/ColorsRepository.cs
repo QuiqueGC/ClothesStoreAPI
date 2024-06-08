@@ -14,7 +14,6 @@ using System.Xml.Linq;
 
 namespace ClothesStoreAPI.Repository.DBManager
 {
-
     public class ColorsRepository: DB.Colors.IColorsRepository
     {
         private readonly IClothesStoreEntities db;
@@ -24,15 +23,18 @@ namespace ClothesStoreAPI.Repository.DBManager
             this.db = db;
         }
 
+
         public IQueryable<Colors> GetColors()
         {
             return db.Colors;
         }
 
+
         public async Task<Colors> GetColorById(int id)
         {
             return await db.Colors.FindAsync(id);
         }
+
 
         public async Task<Colors> GetClothesByIdColor(int id)
         {
@@ -68,7 +70,6 @@ namespace ClothesStoreAPI.Repository.DBManager
                 SqlException sqlException = (SqlException)ex.InnerException.InnerException;
                 msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
-
             return msg;
         }
 
@@ -138,10 +139,10 @@ namespace ClothesStoreAPI.Repository.DBManager
             return db.Colors.Count(c => c.id == id) > 0;
         }
 
+
         private bool ColorNameAlreadyExist(String colorName)
         {
             return db.Colors.Count(c => c.name == colorName) > 0;
         }
-
     }
 }
