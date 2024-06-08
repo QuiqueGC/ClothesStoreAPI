@@ -78,5 +78,14 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                repository.DisposeDB();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

@@ -70,5 +70,10 @@ namespace ClothesStoreAPI.Repository.DB
 
             return msg;
         }
+
+        public void DisposeDB()
+        {
+            db.Dispose();
+        }
     }
 }
