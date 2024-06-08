@@ -165,6 +165,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ClothesController.cs" />
     <Compile Include="Controllers\ClothesDeletedController.cs" />
+    <Compile Include="Controllers\ColorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -195,9 +196,6 @@
       <DependentUpon>ModelClothesStore.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Size.cs">
-      <DependentUpon>ModelClothesStore.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SizeNumeric.cs">
       <DependentUpon>ModelClothesStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

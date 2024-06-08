@@ -37,7 +37,6 @@ namespace ClothesStoreAPI.Controllers
             Clothes clothes = await db.Clothes
                 .Include("Colors")
                 .Include("Size")
-                .Include("SizeNumeric")
                 .Where(c => c.id == id)
                 .FirstOrDefaultAsync();
 
@@ -67,7 +66,6 @@ namespace ClothesStoreAPI.Controllers
             List<Clothes> clothes = await db.Clothes
                 .Include(c => c.Colors)
                 .Include(c => c.Size)
-                .Include(c => c.SizeNumeric)
                 .Where(c => c.name.Contains(name))
                 .ToListAsync();
 
@@ -76,8 +74,6 @@ namespace ClothesStoreAPI.Controllers
             {
                 c.Colors = new Colors { id = c.Colors.id, name = c.Colors.name };
                 c.Size = c.Size != null ? new Size { id = c.Size.id, value = c.Size.value } : null;
-                c.SizeNumeric = c.SizeNumeric != null ? new SizeNumeric { id = c.SizeNumeric.id, value = c.SizeNumeric.value } : null;
-
             });
 
 

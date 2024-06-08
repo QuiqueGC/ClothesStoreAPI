@@ -29,6 +29,5 @@ namespace ClothesStoreAPI.Models
         public virtual DbSet<ClothesDeleted> ClothesDeleted { get; set; }
         public virtual DbSet<Colors> Colors { get; set; }
         public virtual DbSet<Size> Size { get; set; }
-        public virtual DbSet<SizeNumeric> SizeNumeric { get; set; }
     }
 }

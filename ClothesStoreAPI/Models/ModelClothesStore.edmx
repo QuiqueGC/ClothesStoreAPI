@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ClothesStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ClothesStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Clothes">
           <Key>
             <PropertyRef Name="id" />
@@ -12,8 +12,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idColor" Type="int" Nullable="false" />
-          <Property Name="idSize" Type="int" />
-          <Property Name="idSizeNumeric" Type="int" />
+          <Property Name="idSize" Type="int" Nullable="false" />
           <Property Name="price" Type="float" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="256" Nullable="false" />
         </EntityType>
@@ -24,8 +23,7 @@
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idColor" Type="int" Nullable="false" />
-          <Property Name="idSize" Type="int" />
-          <Property Name="idSizeNumeric" Type="int" />
+          <Property Name="idSize" Type="int" Nullable="false" />
           <Property Name="price" Type="float" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="dateDeleted" Type="date" Nullable="false" />
@@ -44,13 +42,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="value" Type="varchar" MaxLength="7" Nullable="false" />
         </EntityType>
-        <EntityType Name="SizeNumeric">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="value" Type="int" Nullable="false" />
-        </EntityType>
         <Association Name="FK_Clothes_Colors1">
           <End Role="Colors" Type="Self.Colors" Multiplicity="1" />
           <End Role="Clothes" Type="Self.Clothes" Multiplicity="*" />
@@ -64,7 +55,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Clothes_Size1">
-          <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
+          <End Role="Size" Type="Self.Size" Multiplicity="1" />
           <End Role="Clothes" Type="Self.Clothes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Size">
@@ -72,18 +63,6 @@
             </Principal>
             <Dependent Role="Clothes">
               <PropertyRef Name="idSize" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Clothes_SizeNumeric1">
-          <End Role="SizeNumeric" Type="Self.SizeNumeric" Multiplicity="0..1" />
-          <End Role="Clothes" Type="Self.Clothes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SizeNumeric">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Clothes">
-              <PropertyRef Name="idSizeNumeric" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -100,7 +79,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClothesDeleted_Size">
-          <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
+          <End Role="Size" Type="Self.Size" Multiplicity="1" />
           <End Role="ClothesDeleted" Type="Self.ClothesDeleted" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Size">
@@ -111,34 +90,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClothesDeleted_SizeNumeric">
-          <End Role="SizeNumeric" Type="Self.SizeNumeric" Multiplicity="0..1" />
-          <End Role="ClothesDeleted" Type="Self.ClothesDeleted" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SizeNumeric">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ClothesDeleted">
-              <PropertyRef Name="idSizeNumeric" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ClothesStoreModelStoreContainer">
           <EntitySet Name="Clothes" EntityType="Self.Clothes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClothesDeleted" EntityType="Self.ClothesDeleted" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SizeNumeric" EntityType="Self.SizeNumeric" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Clothes_Colors1" Association="Self.FK_Clothes_Colors1">
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Clothes" EntitySet="Clothes" />
           </AssociationSet>
           <AssociationSet Name="FK_Clothes_Size1" Association="Self.FK_Clothes_Size1">
             <End Role="Size" EntitySet="Size" />
-            <End Role="Clothes" EntitySet="Clothes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Clothes_SizeNumeric1" Association="Self.FK_Clothes_SizeNumeric1">
-            <End Role="SizeNumeric" EntitySet="SizeNumeric" />
             <End Role="Clothes" EntitySet="Clothes" />
           </AssociationSet>
           <AssociationSet Name="FK_ClothesDeleted_Colors" Association="Self.FK_ClothesDeleted_Colors">
@@ -149,13 +111,8 @@
             <End Role="Size" EntitySet="Size" />
             <End Role="ClothesDeleted" EntitySet="ClothesDeleted" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClothesDeleted_SizeNumeric" Association="Self.FK_ClothesDeleted_SizeNumeric">
-            <End Role="SizeNumeric" EntitySet="SizeNumeric" />
-            <End Role="ClothesDeleted" EntitySet="ClothesDeleted" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClothesStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -166,13 +123,11 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idColor" Type="Int32" Nullable="false" />
-          <Property Name="idSize" Type="Int32" />
-          <Property Name="idSizeNumeric" Type="Int32" />
+          <Property Name="idSize" Type="Int32" Nullable="false" />
           <Property Name="price" Type="Double" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Colors" Relationship="Self.FK_Clothes_Colors1" FromRole="Clothes" ToRole="Colors" />
           <NavigationProperty Name="Size" Relationship="Self.FK_Clothes_Size1" FromRole="Clothes" ToRole="Size" />
-          <NavigationProperty Name="SizeNumeric" Relationship="Self.FK_Clothes_SizeNumeric1" FromRole="Clothes" ToRole="SizeNumeric" />
         </EntityType>
         <EntityType Name="ClothesDeleted">
           <Key>
@@ -181,14 +136,12 @@
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idColor" Type="Int32" Nullable="false" />
-          <Property Name="idSize" Type="Int32" />
-          <Property Name="idSizeNumeric" Type="Int32" />
+          <Property Name="idSize" Type="Int32" Nullable="false" />
           <Property Name="price" Type="Double" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dateDeleted" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Colors" Relationship="Self.FK_ClothesDeleted_Colors" FromRole="ClothesDeleted" ToRole="Colors" />
           <NavigationProperty Name="Size" Relationship="Self.FK_ClothesDeleted_Size" FromRole="ClothesDeleted" ToRole="Size" />
-          <NavigationProperty Name="SizeNumeric" Relationship="Self.FK_ClothesDeleted_SizeNumeric" FromRole="ClothesDeleted" ToRole="SizeNumeric" />
         </EntityType>
         <EntityType Name="Colors">
           <Key>
@@ -208,15 +161,6 @@
           <NavigationProperty Name="Clothes" Relationship="Self.FK_Clothes_Size1" FromRole="Size" ToRole="Clothes" />
           <NavigationProperty Name="ClothesDeleted" Relationship="Self.FK_ClothesDeleted_Size" FromRole="Size" ToRole="ClothesDeleted" />
         </EntityType>
-        <EntityType Name="SizeNumeric">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="value" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Clothes" Relationship="Self.FK_Clothes_SizeNumeric1" FromRole="SizeNumeric" ToRole="Clothes" />
-          <NavigationProperty Name="ClothesDeleted" Relationship="Self.FK_ClothesDeleted_SizeNumeric" FromRole="SizeNumeric" ToRole="ClothesDeleted" />
-        </EntityType>
         <Association Name="FK_Clothes_Colors1">
           <End Role="Colors" Type="Self.Colors" Multiplicity="1" />
           <End Role="Clothes" Type="Self.Clothes" Multiplicity="*" />
@@ -230,7 +174,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Clothes_Size1">
-          <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
+          <End Role="Size" Type="Self.Size" Multiplicity="1" />
           <End Role="Clothes" Type="Self.Clothes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Size">
@@ -238,18 +182,6 @@
             </Principal>
             <Dependent Role="Clothes">
               <PropertyRef Name="idSize" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Clothes_SizeNumeric1">
-          <End Role="SizeNumeric" Type="Self.SizeNumeric" Multiplicity="0..1" />
-          <End Role="Clothes" Type="Self.Clothes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SizeNumeric">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Clothes">
-              <PropertyRef Name="idSizeNumeric" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -266,7 +198,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClothesDeleted_Size">
-          <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
+          <End Role="Size" Type="Self.Size" Multiplicity="1" />
           <End Role="ClothesDeleted" Type="Self.ClothesDeleted" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Size">
@@ -277,24 +209,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClothesDeleted_SizeNumeric">
-          <End Role="SizeNumeric" Type="Self.SizeNumeric" Multiplicity="0..1" />
-          <End Role="ClothesDeleted" Type="Self.ClothesDeleted" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SizeNumeric">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ClothesDeleted">
-              <PropertyRef Name="idSizeNumeric" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ClothesStoreEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Clothes" EntityType="Self.Clothes" />
           <EntitySet Name="ClothesDeleted" EntityType="Self.ClothesDeleted" />
           <EntitySet Name="Colors" EntityType="Self.Colors" />
           <EntitySet Name="Size" EntityType="Self.Size" />
-          <EntitySet Name="SizeNumeric" EntityType="Self.SizeNumeric" />
           <AssociationSet Name="FK_Clothes_Colors1" Association="Self.FK_Clothes_Colors1">
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Clothes" EntitySet="Clothes" />
@@ -303,20 +222,12 @@
             <End Role="Size" EntitySet="Size" />
             <End Role="Clothes" EntitySet="Clothes" />
           </AssociationSet>
-          <AssociationSet Name="FK_Clothes_SizeNumeric1" Association="Self.FK_Clothes_SizeNumeric1">
-            <End Role="SizeNumeric" EntitySet="SizeNumeric" />
-            <End Role="Clothes" EntitySet="Clothes" />
-          </AssociationSet>
           <AssociationSet Name="FK_ClothesDeleted_Colors" Association="Self.FK_ClothesDeleted_Colors">
             <End Role="Colors" EntitySet="Colors" />
             <End Role="ClothesDeleted" EntitySet="ClothesDeleted" />
           </AssociationSet>
           <AssociationSet Name="FK_ClothesDeleted_Size" Association="Self.FK_ClothesDeleted_Size">
             <End Role="Size" EntitySet="Size" />
-            <End Role="ClothesDeleted" EntitySet="ClothesDeleted" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClothesDeleted_SizeNumeric" Association="Self.FK_ClothesDeleted_SizeNumeric">
-            <End Role="SizeNumeric" EntitySet="SizeNumeric" />
             <End Role="ClothesDeleted" EntitySet="ClothesDeleted" />
           </AssociationSet>
         </EntityContainer>
@@ -333,7 +244,6 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="idColor" ColumnName="idColor" />
                 <ScalarProperty Name="idSize" ColumnName="idSize" />
-                <ScalarProperty Name="idSizeNumeric" ColumnName="idSizeNumeric" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="description" ColumnName="description" />
               </MappingFragment>
@@ -346,7 +256,6 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="idColor" ColumnName="idColor" />
                 <ScalarProperty Name="idSize" ColumnName="idSize" />
-                <ScalarProperty Name="idSizeNumeric" ColumnName="idSizeNumeric" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="dateDeleted" ColumnName="dateDeleted" />
@@ -364,14 +273,6 @@
           <EntitySetMapping Name="Size">
             <EntityTypeMapping TypeName="ClothesStoreModel.Size">
               <MappingFragment StoreEntitySet="Size">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="value" ColumnName="value" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SizeNumeric">
-            <EntityTypeMapping TypeName="ClothesStoreModel.SizeNumeric">
-              <MappingFragment StoreEntitySet="SizeNumeric">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="value" ColumnName="value" />
               </MappingFragment>

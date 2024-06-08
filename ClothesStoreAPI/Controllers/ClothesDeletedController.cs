@@ -53,7 +53,6 @@ namespace ClothesStoreAPI.Controllers
                         name = clothesDeleted.name,
                         idColor = clothesDeleted.idColor,
                         idSize = clothesDeleted.idSize,
-                        idSizeNumeric = clothesDeleted.idSizeNumeric,
                         price = clothesDeleted.price,
                         description = clothesDeleted.description,
                     };
