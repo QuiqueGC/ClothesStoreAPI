@@ -32,7 +32,6 @@ namespace ClothesStoreAPI.Controllers
         {
             db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
-            //Clothes clothes = await db.Clothes.FindAsync(id);
 
             Clothes clothes = await db.Clothes
                 .Include("Colors")
