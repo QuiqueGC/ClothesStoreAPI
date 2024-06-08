@@ -167,6 +167,7 @@
     <Compile Include="Controllers\ClothesDeletedController.cs" />
     <Compile Include="Controllers\ColorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SizesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

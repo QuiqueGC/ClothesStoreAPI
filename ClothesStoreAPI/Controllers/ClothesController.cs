@@ -112,7 +112,7 @@ namespace ClothesStoreAPI.Controllers
                     try
                     {
                         await db.SaveChangesAsync();
-                        result = StatusCode(HttpStatusCode.NoContent);
+                        result = Ok(clothes);
                     }
                     catch (DbUpdateConcurrencyException)
                     {

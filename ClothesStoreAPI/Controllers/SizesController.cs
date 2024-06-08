@@ -15,72 +15,71 @@ using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
-    public class ColorsController : ApiController
+    public class SizesController : ApiController
     {
         private ClothesStoreEntities db = new ClothesStoreEntities();
 
-        // GET: api/Colors
-        public IQueryable<Colors> GetColors()
+        // GET: api/Sizes
+        public IQueryable<Size> GetSize()
         {
             db.Configuration.LazyLoadingEnabled = false;
-            return db.Colors;
+            return db.Size;
         }
 
-        // GET: api/Colors/5
-        [ResponseType(typeof(Colors))]
-        public async Task<IHttpActionResult> GetColors(int id)
+        // GET: api/Sizes/5
+        [ResponseType(typeof(Size))]
+        public async Task<IHttpActionResult> GetSize(int id)
         {
             db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
 
-            Colors colors = await db.Colors.FindAsync(id);
+            Size size = await db.Size.FindAsync(id);
 
-            if (colors == null)
+            if (size == null)
             {
                 result = NotFound();
             }
             else
             {
-                result = Ok(colors);
+                result = Ok(size);
             }
 
             return result;
         }
 
-
         /// <summary>
-        /// get the color and a list of clothes filtered by its id
+        /// get the size and a list of clothes filtered by its id
         /// </summary>
-        /// <param name="id">int with idColor to filter</param>
-        /// <returns>Color with list of Clothes</returns>
+        /// <param name="id">int with idSize to filter</param>
+        /// <returns>Size with list of Clothes</returns>
         [HttpGet]
-        [Route("api/Colors/{id}/Clothes")]
-        public async Task<IHttpActionResult> GetClothesByIdColor(int id)
+        [Route("api/Sizes/{id}/Clothes")]
+        public async Task<IHttpActionResult> GetClothesByIdSize(int id)
         {
             db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
 
-            Colors colors = await db.Colors
+            Size size = await db.Size
                 .Include("Clothes")
                 .Where(c => c.id == id)
                 .FirstOrDefaultAsync();
 
-            if (colors == null)
+            if (size == null)
             {
                 result = NotFound();
             }
             else
             {
-                result = Ok(colors);
+                result = Ok(size);
             }
 
             return result;
         }
 
 
-        // PUT: api/Colors/5
+        // PUT: api/Sizes/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutColors(int id, Colors colors)
+        public async Task<IHttpActionResult> PutSize(int id, Size size)
         {
             IHttpActionResult result;
 
@@ -90,25 +89,25 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                if (id != colors.id)
+                if (id != size.id)
                 {
                     result = BadRequest();
                 }
                 else
                 {
                     string msg = "";
-                    db.Entry(colors).State = EntityState.Modified;
+                    db.Entry(size).State = EntityState.Modified;
 
                     try
                     {
                         await db.SaveChangesAsync();
-                        result = Ok(colors);
+                        result = Ok(size);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!ColorsExists(id))
+                        if (!SizeExists(id))
                         {
-                            result = NotFound();
+                            return NotFound();
                         }
                         else
                         {
@@ -127,9 +126,9 @@ namespace ClothesStoreAPI.Controllers
             return result;
         }
 
-        // POST: api/Colors
-        [ResponseType(typeof(Colors))]
-        public async Task<IHttpActionResult> PostColors(Colors colors)
+        // POST: api/Sizes
+        [ResponseType(typeof(Size))]
+        public async Task<IHttpActionResult> PostSize(Size size)
         {
             IHttpActionResult result;
 
@@ -139,12 +138,13 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                db.Colors.Add(colors);
+
+                db.Size.Add(size);
                 String msg = "";
                 try
                 {
                     await db.SaveChangesAsync();
-                    result = CreatedAtRoute("DefaultApi", new { colors.id }, colors);
+                    result = CreatedAtRoute("DefaultApi", new { size.id }, size);
                 }
                 catch (DbUpdateException ex)
                 {
@@ -152,30 +152,30 @@ namespace ClothesStoreAPI.Controllers
                     msg = MyUtils.ErrorMessage(sqlException);
                     result = BadRequest(msg);
                 }
+                
             }
             return result;
         }
 
-        // DELETE: api/Colors/5
-        [ResponseType(typeof(Colors))]
-        public async Task<IHttpActionResult> DeleteColors(int id)
+
+        // DELETE: api/Sizes/5
+        [ResponseType(typeof(Size))]
+        public async Task<IHttpActionResult> DeleteSize(int id)
         {
             IHttpActionResult result;
-            Colors colors = await db.Colors.FindAsync(id);
-            if (colors == null)
+            Size size = await db.Size.FindAsync(id);
+            if (size == null)
             {
                 result = NotFound();
             }
             else
             {
-                db.Colors.Remove(colors);
-                
                 string msg = "";
+                db.Size.Remove(size);
                 try
                 {
                     await db.SaveChangesAsync();
-                    result = Ok(colors);
-
+                    result = Ok(size);
                 }
                 catch (DbUpdateException ex)
                 {
@@ -183,8 +183,9 @@ namespace ClothesStoreAPI.Controllers
                     msg = MyUtils.ErrorMessage(sqlException);
                     result = BadRequest(msg);
                 }
+
             }
-            return result;
+            return Ok(size);
         }
 
         protected override void Dispose(bool disposing)
@@ -196,9 +197,9 @@ namespace ClothesStoreAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ColorsExists(int id)
+        private bool SizeExists(int id)
         {
-            return db.Colors.Count(e => e.id == id) > 0;
+            return db.Size.Count(e => e.id == id) > 0;
         }
     }
 }
