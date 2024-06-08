@@ -90,30 +90,14 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    result = await TryToUpdateAtDB(id, size);
+                    string msg = await sizesRepository.UpdateSize(id, size);
+                    result = setResultFromMsg(msg);
                 }
             }
             return result;
         }
 
-        private async Task<IHttpActionResult> TryToUpdateAtDB(int id, Size size)
-        {
-            IHttpActionResult result;
-            string msg = await sizesRepository.UpdateSize(id, size);
-            switch (msg)
-            {
-                case "":
-                    result = Ok(size);
-                    break;
-                case "NotFound":
-                    result = NotFound();
-                    break;
-                default:
-                    result = BadRequest(msg);
-                    break;
-            }
-            return result;
-        }
+        
 
         // POST: api/Sizes
         [ResponseType(typeof(Size))]
@@ -127,45 +111,31 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                result = await TryToInsertAtDB(size);
+                string msg = await sizesRepository.InsertSize(size);
+                result = setResultFromMsg(msg);
             }
             return result;
         }
 
-
-        private async Task<IHttpActionResult> TryToInsertAtDB(Size size)
-        {
-            IHttpActionResult result;
-            string msg = await sizesRepository.InsertSize(size);
-            switch (msg)
-            {
-                case "":
-                    result = CreatedAtRoute("DefaultApi", new { size.id }, size);
-                    break;
-                default:
-                    result = BadRequest(msg);
-                    break;
-            }
-            return result;
-        }
 
 
         // DELETE: api/Sizes/5
         [ResponseType(typeof(Size))]
         public async Task<IHttpActionResult> DeleteSize(int id)
         {
-            IHttpActionResult result = await TryToDeleteAtDB(id);
+            String msg = await sizesRepository.DeleteSize(id);
+            IHttpActionResult result = setResultFromMsg(msg);
             return result;
         }
 
-        private async Task<IHttpActionResult> TryToDeleteAtDB(int id)
+
+        private IHttpActionResult setResultFromMsg(String msg)
         {
             IHttpActionResult result;
-            String msg = await sizesRepository.DeleteSize(id);
             switch (msg)
             {
-                case "":
-                    result = Ok();
+                case "Success":
+                    result = Ok(new SuccessResponse(msg));
                     break;
                 case "NotFound":
                     result = NotFound();
@@ -176,6 +146,7 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
+
 
 
         protected override void Dispose(bool disposing)

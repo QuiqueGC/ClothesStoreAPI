@@ -38,7 +38,7 @@ namespace ClothesStoreAPI.Repository.DB
 
         public async Task<String> UpdateSize(int id, Size size)
         {
-            string msg = "";
+            string msg = "Success";
             db.Entry(size).State = EntityState.Modified;
 
             try
@@ -67,7 +67,7 @@ namespace ClothesStoreAPI.Repository.DB
 
         public async Task<String> InsertSize(Size size)
         {
-            String msg = "";
+            String msg = "Success";
 
             if (SizeValueAlreadyExist(size.value))
             {
@@ -95,7 +95,7 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<String> DeleteSize(int id)
         {
             Size size = await db.Size.FindAsync(id);
-            string msg = "";
+            string msg = "Success";
 
             if (size == null)
             {

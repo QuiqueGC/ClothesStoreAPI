@@ -90,30 +90,14 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    result = await TryToUpdateAtDB(id, colors);
+                    string msg = await colorsRepository.UpdateColor(id, colors);
+                    result = SetResultFromMsg(msg);
                 }
             }
             return result;
         }
 
-        private async Task<IHttpActionResult> TryToUpdateAtDB(int id, Colors colors)
-        {
-            IHttpActionResult result;
-            string msg = await colorsRepository.UpdateColor(id, colors);
-            switch (msg)
-            {
-                case "":
-                    result = Ok(colors);
-                    break;
-                case "NotFound":
-                    result = NotFound();
-                    break;
-                default:
-                    result = BadRequest(msg);
-                    break;
-            }
-            return result;
-        }
+        
 
 
 
@@ -129,27 +113,12 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                result = await TryToInsertAtDB(colors);
+                string msg = await colorsRepository.InsertColor(colors);
+                result = SetResultFromMsg(msg);
             }
             return result;
         }
 
-
-        private async Task<IHttpActionResult> TryToInsertAtDB(Colors colors)
-        {
-            IHttpActionResult result;
-            string msg = await colorsRepository.InsertColor(colors);
-            switch (msg)
-            {
-                case "":
-                    result = CreatedAtRoute("DefaultApi", new { colors.id }, colors);
-                    break;
-                default:
-                    result = BadRequest(msg);
-                    break;
-            }
-            return result;
-        }
 
 
 
@@ -157,19 +126,20 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> DeleteColors(int id)
         {
-            IHttpActionResult result = await TryToDeleteAtDB(id);
+            String msg = await colorsRepository.DeleteColor(id);
+            IHttpActionResult result = SetResultFromMsg(msg);
             return result;
         }
 
 
-        private async Task<IHttpActionResult> TryToDeleteAtDB(int id)
+
+        private IHttpActionResult SetResultFromMsg(String msg)
         {
             IHttpActionResult result;
-            String msg = await colorsRepository.DeleteColor(id);
             switch (msg)
             {
-                case "":
-                    result = Ok();
+                case "Success":
+                    result = Ok(new SuccessResponse(msg));
                     break;
                 case "NotFound":
                     result = NotFound();
@@ -180,6 +150,7 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
+
 
 
         protected override void Dispose(bool disposing)
