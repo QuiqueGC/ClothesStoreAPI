@@ -124,8 +124,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> DeleteSize(int id)
         {
             String msg = await sizesRepository.DeleteSize(id);
-            IHttpActionResult result = setResultFromMsg(msg);
-            return result;
+            return setResultFromMsg(msg);
         }
 
 

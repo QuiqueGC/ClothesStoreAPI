@@ -11,33 +11,28 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ClothesController : ApiController
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        ClothesRepository clothesRepository = new ClothesRepository();
 
         // GET: api/Clothes
         public IQueryable<Clothes> GetClothes()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.Clothes;
+            return clothesRepository.GetClothes();
         }
 
         // GET: api/Clothes/5
         [ResponseType(typeof(Clothes))]
         public async Task<IHttpActionResult> GetClothes(int id)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
 
-            Clothes clothes = await db.Clothes
-                .Include("Colors")
-                .Include("Size")
-                .Where(c => c.id == id)
-                .FirstOrDefaultAsync();
+            Clothes clothes = await clothesRepository.GetClothes(id);
 
             if (clothes == null)
             {
@@ -57,24 +52,11 @@ namespace ClothesStoreAPI.Controllers
         /// <returns>list of clothes</returns>
         [HttpGet]
         [Route("api/clothes/name/{name}")]
-        public async Task<IHttpActionResult> FindByName(string name)
+        public async Task<IHttpActionResult> FindClothesByName(string name)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
 
-            List<Clothes> clothes = await db.Clothes
-                .Include(c => c.Colors)
-                .Include(c => c.Size)
-                .Where(c => c.name.Contains(name))
-                .ToListAsync();
-
-
-            clothes.ForEach(c =>
-            {
-                c.Colors = new Colors { id = c.Colors.id, name = c.Colors.name };
-                c.Size = c.Size != null ? new Size { id = c.Size.id, value = c.Size.value } : null;
-            });
-
+            List<Clothes> clothes = await clothesRepository.FindClothesByName(name);
 
             if (clothes.Count == 0)
             {
@@ -85,7 +67,6 @@ namespace ClothesStoreAPI.Controllers
                 result = Ok(clothes);
             }
             return result;
-
         }
 
 
@@ -107,33 +88,10 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = "";
-                    db.Entry(clothes).State = EntityState.Modified;
-                    try
-                    {
-                        await db.SaveChangesAsync();
-                        result = Ok(clothes);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ClothesExists(id))
-                        {
-                            result = NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                        msg = RepositoryUtils.ErrorMessage(sqlException);
-                        result = BadRequest(msg);
-                    }
+                    string msg = await clothesRepository.UpdateClothes(id, clothes);
+                    result = setResultFromMsg(msg);
                 }
             }
-
             return result;
         }
 
@@ -150,20 +108,8 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                db.Clothes.Add(clothes);
-                string msg = "";
-                try
-                {
-                    await db.SaveChangesAsync();
-                    result = CreatedAtRoute("DefaultApi", new { clothes.id }, clothes);
-                }
-
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
-                    result = BadRequest(msg);
-                }
+                string msg = await clothesRepository.InsertClothes(clothes);
+                result = setResultFromMsg(msg);
             }
             return result;
         }
@@ -173,32 +119,26 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Clothes))]
         public async Task<IHttpActionResult> DeleteClothes(int id)
         {
+            string msg = await clothesRepository.DeleteClothes(id);
+            return setResultFromMsg(msg);
+        }
 
+
+        private IHttpActionResult setResultFromMsg(String msg)
+        {
             IHttpActionResult result;
-            Clothes clothes = await db.Clothes.FindAsync(id);
-            if (clothes == null)
+            switch (msg)
             {
-                result = NotFound();
-            }
-            else
-            {
-                string msg = "";
-                try
-                {
-                    db.Clothes.Remove(clothes);
-                    await db.SaveChangesAsync();
-                    result = Ok(clothes);
-
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                case "Success":
+                    result = Ok(new SuccessResponse(msg));
+                    break;
+                case "NotFound":
+                    result = NotFound();
+                    break;
+                default:
                     result = BadRequest(msg);
-                }
-
+                    break;
             }
-
             return result;
         }
 
@@ -206,14 +146,9 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                clothesRepository.DisposeDB();
             }
             base.Dispose(disposing);
-        }
-
-        private bool ClothesExists(int id)
-        {
-            return db.Clothes.Count(e => e.id == id) > 0;
         }
     }
 }

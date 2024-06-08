@@ -127,8 +127,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> DeleteColors(int id)
         {
             String msg = await colorsRepository.DeleteColor(id);
-            IHttpActionResult result = SetResultFromMsg(msg);
-            return result;
+            return SetResultFromMsg(msg);
         }
 
 

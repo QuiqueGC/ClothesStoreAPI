@@ -201,6 +201,7 @@
     </Compile>
     <Compile Include="Models\SuccessResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DB\ClothesRepository.cs" />
     <Compile Include="Repository\DB\ColorsRepository.cs" />
     <Compile Include="Repository\DB\SizesRepository.cs" />
     <Compile Include="Repository\Utils\RepositoryUtils.cs" />
