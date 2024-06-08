@@ -18,6 +18,7 @@ namespace ClothesStoreAPI.Models
         public ClothesStoreEntities()
             : base("name=ClothesStoreEntities")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

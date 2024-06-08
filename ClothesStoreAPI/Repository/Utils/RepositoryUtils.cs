@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ClothesStoreAPI.Utils
 {
-    public static class MyUtils
+    public static class RepositoryUtils
     {
 
         /// <summary>

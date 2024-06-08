@@ -10,30 +10,29 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DBManager;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ColorsController : ApiController
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        private ColorsRepository colorsRepository = new ColorsRepository();
 
         // GET: api/Colors
         public IQueryable<Colors> GetColors()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.Colors;
+            return colorsRepository.GetColors();
         }
 
         // GET: api/Colors/5
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> GetColors(int id)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
-
-            Colors colors = await db.Colors.FindAsync(id);
+            Colors colors = await colorsRepository.GetColorById(id);
 
             if (colors == null)
             {
@@ -57,13 +56,8 @@ namespace ClothesStoreAPI.Controllers
         [Route("api/Colors/{id}/Clothes")]
         public async Task<IHttpActionResult> GetClothesByIdColor(int id)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
-
-            Colors colors = await db.Colors
-                .Include("Clothes")
-                .Where(c => c.id == id)
-                .FirstOrDefaultAsync();
+            Colors colors = await colorsRepository.GetClothesByIdColor(id);
 
             if (colors == null)
             {
@@ -96,36 +90,32 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = "";
-                    db.Entry(colors).State = EntityState.Modified;
-
-                    try
-                    {
-                        await db.SaveChangesAsync();
-                        result = Ok(colors);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ColorsExists(id))
-                        {
-                            result = NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                        msg = MyUtils.ErrorMessage(sqlException);
-                        result = BadRequest(msg);
-                    }
+                    result = await TryToUpdateAtDB(id, colors);
                 }
             }
-
             return result;
         }
+
+        private async Task<IHttpActionResult> TryToUpdateAtDB(int id, Colors colors)
+        {
+            IHttpActionResult result;
+            string msg = await colorsRepository.UpdateColor(id, colors);
+            switch (msg)
+            {
+                case "":
+                    result = Ok(colors);
+                    break;
+                case "NotFound":
+                    result = NotFound();
+                    break;
+                default:
+                    result = BadRequest(msg);
+                    break;
+            }
+            return result;
+        }
+
+
 
         // POST: api/Colors
         [ResponseType(typeof(Colors))]
@@ -139,66 +129,68 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                db.Colors.Add(colors);
-                String msg = "";
-                try
-                {
-                    await db.SaveChangesAsync();
-                    result = CreatedAtRoute("DefaultApi", new { colors.id }, colors);
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = MyUtils.ErrorMessage(sqlException);
-                    result = BadRequest(msg);
-                }
+                result = await TryToInsertAtDB(colors);
             }
             return result;
         }
+
+
+        private async Task<IHttpActionResult> TryToInsertAtDB(Colors colors)
+        {
+            IHttpActionResult result;
+            string msg = await colorsRepository.InsertColor(colors);
+            switch (msg)
+            {
+                case "":
+                    result = CreatedAtRoute("DefaultApi", new { colors.id }, colors);
+                    break;
+                default:
+                    result = BadRequest(msg);
+                    break;
+            }
+            return result;
+        }
+
+
 
         // DELETE: api/Colors/5
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> DeleteColors(int id)
         {
-            IHttpActionResult result;
-            Colors colors = await db.Colors.FindAsync(id);
-            if (colors == null)
-            {
-                result = NotFound();
-            }
-            else
-            {
-                db.Colors.Remove(colors);
-                
-                string msg = "";
-                try
-                {
-                    await db.SaveChangesAsync();
-                    result = Ok(colors);
+            IHttpActionResult result = await TryToDeleteAtDB(id);
+            return result;
+        }
 
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = MyUtils.ErrorMessage(sqlException);
+
+        private async Task<IHttpActionResult> TryToDeleteAtDB(int id)
+        {
+            IHttpActionResult result;
+            String msg = await colorsRepository.DeleteColor(id);
+            switch (msg)
+            {
+                case "":
+                    result = Ok();
+                    break;
+                case "NotFound":
+                    result = NotFound();
+                    break;
+                default:
                     result = BadRequest(msg);
-                }
+                    break;
             }
             return result;
         }
+
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+               colorsRepository.DisposeDB();
             }
             base.Dispose(disposing);
         }
 
-        private bool ColorsExists(int id)
-        {
-            return db.Colors.Count(e => e.id == id) > 0;
-        }
+
     }
 }

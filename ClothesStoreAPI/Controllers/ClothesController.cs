@@ -128,7 +128,7 @@ namespace ClothesStoreAPI.Controllers
                     catch (DbUpdateException ex)
                     {
                         SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                        msg = MyUtils.ErrorMessage(sqlException);
+                        msg = RepositoryUtils.ErrorMessage(sqlException);
                         result = BadRequest(msg);
                     }
                 }
@@ -161,7 +161,7 @@ namespace ClothesStoreAPI.Controllers
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = MyUtils.ErrorMessage(sqlException);
+                    msg = RepositoryUtils.ErrorMessage(sqlException);
                     result = BadRequest(msg);
                 }
             }
@@ -193,7 +193,7 @@ namespace ClothesStoreAPI.Controllers
                 catch (DbUpdateException ex)
                 {
                     SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = MyUtils.ErrorMessage(sqlException);
+                    msg = RepositoryUtils.ErrorMessage(sqlException);
                     result = BadRequest(msg);
                 }
 
