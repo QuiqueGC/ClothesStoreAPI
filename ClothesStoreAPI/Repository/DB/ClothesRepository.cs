@@ -37,17 +37,8 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<List<Clothes>> FindClothesByName(string name)
         {
             List<Clothes> clothes = await db.Clothes
-                .Include(c => c.Colors)
-                .Include(c => c.Size)
                 .Where(c => c.name.Contains(name))
                 .ToListAsync();
-
-
-            clothes.ForEach(c =>
-            {
-                c.Colors = new Colors { id = c.Colors.id, name = c.Colors.name };
-                c.Size = c.Size != null ? new Models.Size { id = c.Size.id, value = c.Size.value } : null;
-            });
 
             return clothes;
         }

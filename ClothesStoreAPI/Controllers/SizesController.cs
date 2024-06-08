@@ -19,12 +19,12 @@ namespace ClothesStoreAPI.Controllers
 {
     public class SizesController : ApiController
     {
-        SizesRepository sizesRepository = new SizesRepository();
+        SizesRepository repository = new SizesRepository();
 
         // GET: api/Sizes
         public IQueryable<Size> GetSize()
         {
-            return sizesRepository.GetSizes();
+            return repository.GetSizes();
         }
 
         // GET: api/Sizes/5
@@ -33,7 +33,7 @@ namespace ClothesStoreAPI.Controllers
         {
             IHttpActionResult result;
 
-            Size size = await sizesRepository.GetSizeById(id);
+            Size size = await repository.GetSizeById(id);
 
             if (size == null)
             {
@@ -57,7 +57,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> GetClothesByIdSize(int id)
         {
             IHttpActionResult result;
-            Size size = await sizesRepository.GetClothesByIdSize(id);
+            Size size = await repository.GetClothesByIdSize(id);
 
             if (size == null)
             {
@@ -90,7 +90,7 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = await sizesRepository.UpdateSize(id, size);
+                    string msg = await repository.UpdateSize(id, size);
                     result = setResultFromMsg(msg);
                 }
             }
@@ -111,7 +111,7 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                string msg = await sizesRepository.InsertSize(size);
+                string msg = await repository.InsertSize(size);
                 result = setResultFromMsg(msg);
             }
             return result;
@@ -123,7 +123,7 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Size))]
         public async Task<IHttpActionResult> DeleteSize(int id)
         {
-            String msg = await sizesRepository.DeleteSize(id);
+            String msg = await repository.DeleteSize(id);
             return setResultFromMsg(msg);
         }
 
@@ -152,7 +152,7 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-                sizesRepository.DisposeDB();
+                repository.DisposeDB();
             }
             base.Dispose(disposing);
         }

@@ -19,12 +19,12 @@ namespace ClothesStoreAPI.Controllers
 {
     public class ColorsController : ApiController
     {
-        private ColorsRepository colorsRepository = new ColorsRepository();
+        private ColorsRepository repository = new ColorsRepository();
 
         // GET: api/Colors
         public IQueryable<Colors> GetColors()
         {
-            return colorsRepository.GetColors();
+            return repository.GetColors();
         }
 
         // GET: api/Colors/5
@@ -32,7 +32,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> GetColors(int id)
         {
             IHttpActionResult result;
-            Colors colors = await colorsRepository.GetColorById(id);
+            Colors colors = await repository.GetColorById(id);
 
             if (colors == null)
             {
@@ -57,7 +57,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> GetClothesByIdColor(int id)
         {
             IHttpActionResult result;
-            Colors colors = await colorsRepository.GetClothesByIdColor(id);
+            Colors colors = await repository.GetClothesByIdColor(id);
 
             if (colors == null)
             {
@@ -90,7 +90,7 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = await colorsRepository.UpdateColor(id, colors);
+                    string msg = await repository.UpdateColor(id, colors);
                     result = SetResultFromMsg(msg);
                 }
             }
@@ -113,7 +113,7 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                string msg = await colorsRepository.InsertColor(colors);
+                string msg = await repository.InsertColor(colors);
                 result = SetResultFromMsg(msg);
             }
             return result;
@@ -126,7 +126,7 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> DeleteColors(int id)
         {
-            String msg = await colorsRepository.DeleteColor(id);
+            String msg = await repository.DeleteColor(id);
             return SetResultFromMsg(msg);
         }
 
@@ -156,7 +156,7 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-               colorsRepository.DisposeDB();
+               repository.DisposeDB();
             }
             base.Dispose(disposing);
         }

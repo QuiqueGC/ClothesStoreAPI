@@ -166,9 +166,9 @@
     <Compile Include="Controllers\ClothesController.cs" />
     <Compile Include="Controllers\ClothesDeletedController.cs" />
     <Compile Include="Controllers\ColorsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\General\HomeController.cs" />
     <Compile Include="Controllers\SizesController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\General\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,10 +201,11 @@
     </Compile>
     <Compile Include="Models\SuccessResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DB\ClothesDeletedRepository.cs" />
     <Compile Include="Repository\DB\ClothesRepository.cs" />
     <Compile Include="Repository\DB\ColorsRepository.cs" />
     <Compile Include="Repository\DB\SizesRepository.cs" />
-    <Compile Include="Repository\Utils\RepositoryUtils.cs" />
+    <Compile Include="Repository\DB\UtilsDB\RepositoryUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

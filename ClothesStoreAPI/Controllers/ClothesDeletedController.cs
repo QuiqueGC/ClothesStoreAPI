@@ -11,65 +11,71 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ClothesDeletedController : ApiController
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        private ClothesDeletedRepository repository = new ClothesDeletedRepository();
 
         // GET: api/ClothesDeleted
         public IQueryable<ClothesDeleted> GetClothesDeleted()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.ClothesDeleted;
+            return repository.GetClothesDeleted();
         }
 
 
-        /// <summary>
-        /// Restore clothes from the clothesDeleted table
-        /// to the clothes table (id will change)
-        /// </summary>
-        /// <param name="id">int with id of the ClothesDeleted</param>
-        /// <returns>the element restored with it's new id </returns>
-        [HttpDelete]
-        [Route("api/clothesDeleted/restore/{id}")]
-        public async Task<IHttpActionResult> RestoreClothes(int id)
+
+        [HttpGet]
+        [Route("api/clothesDeleted/name/{name}")]
+        public async Task<IHttpActionResult> FindClothesByName(string name)
         {
             IHttpActionResult result;
-            ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
-            if (clothesDeleted == null)
+
+            List<ClothesDeleted> clothesDeleted = await repository.FindClothesDeletedByName(name);
+
+            if (clothesDeleted.Count == 0)
             {
                 result = NotFound();
             }
             else
             {
-                string msg = "";
-                try
-                {
-                    Clothes clothes = new Clothes
-                    {
-                        name = clothesDeleted.name,
-                        idColor = clothesDeleted.idColor,
-                        idSize = clothesDeleted.idSize,
-                        price = clothesDeleted.price,
-                        description = clothesDeleted.description,
-                    };
-
-                    db.Clothes.Add(clothes);
-                    db.ClothesDeleted.Remove(clothesDeleted);
-                    await db.SaveChangesAsync();
-                    result = Ok(clothes);
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
-                    result = BadRequest(msg);
-                }
+                result = Ok(clothesDeleted);
             }
+            return result;
+        }
 
+
+
+
+        [HttpDelete]
+        [Route("api/clothesDeleted/restore/{id}")]
+        public async Task<IHttpActionResult> RestoreClothes(int id)
+        {
+            string msg = await repository.RestoreClothes(id);
+            return setResultFromMsg(msg);
+        }
+
+
+
+
+        private IHttpActionResult setResultFromMsg(String msg)
+        {
+            IHttpActionResult result;
+            switch (msg)
+            {
+                case "Success":
+                    result = Ok(new SuccessResponse(msg));
+                    break;
+                case "NotFound":
+                    result = NotFound();
+                    break;
+                default:
+                    result = BadRequest(msg);
+                    break;
+            }
             return result;
         }
     }
