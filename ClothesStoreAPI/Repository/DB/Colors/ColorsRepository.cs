@@ -47,7 +47,7 @@ namespace ClothesStoreAPI.Repository.DBManager
 
         public async Task<String> UpdateColor(int id, Colors colors)
         {
-            string msg = "";
+            string msg = "Success";
             db.Entry(colors).State = EntityState.Modified;
 
             try
@@ -76,7 +76,7 @@ namespace ClothesStoreAPI.Repository.DBManager
 
         public async Task<String> InsertColor(Colors colors)
         {
-            String msg = "";
+            String msg = "Success";
 
             if (ColorNameAlreadyExist(colors.name))
             {
@@ -104,7 +104,7 @@ namespace ClothesStoreAPI.Repository.DBManager
         public async Task<String> DeleteColor(int id)
         {
             Colors colors = await db.Colors.FindAsync(id);
-            string msg = "";
+            string msg = "Success";
 
             if (colors == null)
             {
