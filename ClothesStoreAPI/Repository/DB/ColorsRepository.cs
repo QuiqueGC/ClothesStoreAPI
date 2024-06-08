@@ -40,8 +40,8 @@ namespace ClothesStoreAPI.Repository.DBManager
         public async Task<String> UpdateColor(int id, Colors colors)
         {
             string msg = "";
-
             db.Entry(colors).State = EntityState.Modified;
+
             try
             {
                 await db.SaveChangesAsync();

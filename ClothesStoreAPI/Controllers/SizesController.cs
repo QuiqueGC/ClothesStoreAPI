@@ -11,29 +11,29 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Repository.DB;
+using ClothesStoreAPI.Repository.DBManager;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class SizesController : ApiController
     {
-        private ClothesStoreEntities db = new ClothesStoreEntities();
+        SizesRepository sizesRepository = new SizesRepository();
 
         // GET: api/Sizes
         public IQueryable<Size> GetSize()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.Size;
+            return sizesRepository.GetSizes();
         }
 
         // GET: api/Sizes/5
         [ResponseType(typeof(Size))]
         public async Task<IHttpActionResult> GetSize(int id)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
 
-            Size size = await db.Size.FindAsync(id);
+            Size size = await sizesRepository.GetSizeById(id);
 
             if (size == null)
             {
@@ -56,13 +56,8 @@ namespace ClothesStoreAPI.Controllers
         [Route("api/Sizes/{id}/Clothes")]
         public async Task<IHttpActionResult> GetClothesByIdSize(int id)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             IHttpActionResult result;
-
-            Size size = await db.Size
-                .Include("Clothes")
-                .Where(c => c.id == id)
-                .FirstOrDefaultAsync();
+            Size size = await sizesRepository.GetClothesByIdSize(id);
 
             if (size == null)
             {
@@ -95,34 +90,28 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = "";
-                    db.Entry(size).State = EntityState.Modified;
-
-                    try
-                    {
-                        await db.SaveChangesAsync();
-                        result = Ok(size);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!SizeExists(id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                        msg = RepositoryUtils.ErrorMessage(sqlException);
-                        result = BadRequest(msg);
-                    }
+                    result = await TryToUpdateAtDB(id, size);
                 }
             }
+            return result;
+        }
 
+        private async Task<IHttpActionResult> TryToUpdateAtDB(int id, Size size)
+        {
+            IHttpActionResult result;
+            string msg = await sizesRepository.UpdateSize(id, size);
+            switch (msg)
+            {
+                case "":
+                    result = Ok(size);
+                    break;
+                case "NotFound":
+                    result = NotFound();
+                    break;
+                default:
+                    result = BadRequest(msg);
+                    break;
+            }
             return result;
         }
 
@@ -138,21 +127,24 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
+                result = await TryToInsertAtDB(size);
+            }
+            return result;
+        }
 
-                db.Size.Add(size);
-                String msg = "";
-                try
-                {
-                    await db.SaveChangesAsync();
+
+        private async Task<IHttpActionResult> TryToInsertAtDB(Size size)
+        {
+            IHttpActionResult result;
+            string msg = await sizesRepository.InsertSize(size);
+            switch (msg)
+            {
+                case "":
                     result = CreatedAtRoute("DefaultApi", new { size.id }, size);
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
+                    break;
+                default:
                     result = BadRequest(msg);
-                }
-                
+                    break;
             }
             return result;
         }
@@ -162,44 +154,39 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Size))]
         public async Task<IHttpActionResult> DeleteSize(int id)
         {
-            IHttpActionResult result;
-            Size size = await db.Size.FindAsync(id);
-            if (size == null)
-            {
-                result = NotFound();
-            }
-            else
-            {
-                string msg = "";
-                db.Size.Remove(size);
-                try
-                {
-                    await db.SaveChangesAsync();
-                    result = Ok(size);
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = RepositoryUtils.ErrorMessage(sqlException);
-                    result = BadRequest(msg);
-                }
-
-            }
-            return Ok(size);
+            IHttpActionResult result = await TryToDeleteAtDB(id);
+            return result;
         }
+
+        private async Task<IHttpActionResult> TryToDeleteAtDB(int id)
+        {
+            IHttpActionResult result;
+            String msg = await sizesRepository.DeleteSize(id);
+            switch (msg)
+            {
+                case "":
+                    result = Ok();
+                    break;
+                case "NotFound":
+                    result = NotFound();
+                    break;
+                default:
+                    result = BadRequest(msg);
+                    break;
+            }
+            return result;
+        }
+
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                sizesRepository.DisposeDB();
             }
             base.Dispose(disposing);
         }
 
-        private bool SizeExists(int id)
-        {
-            return db.Size.Count(e => e.id == id) > 0;
-        }
+        
     }
 }
