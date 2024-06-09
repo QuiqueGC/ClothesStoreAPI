@@ -54,7 +54,6 @@ namespace ClothesStoreAPI.Service.Clothes
                 }
             }
             return msg;
-
         }
         
 
@@ -70,9 +69,9 @@ namespace ClothesStoreAPI.Service.Clothes
             {
                 msg = await repository.InsertClothes(clothes);
             }
-
             return msg;
         }
+
 
         public async Task<string> DeleteClothes(int id)
         {
@@ -89,6 +88,7 @@ namespace ClothesStoreAPI.Service.Clothes
             return msg;
         }
 
+
         public void DisposeDB()
         {
             repository.DisposeDB();
@@ -100,6 +100,7 @@ namespace ClothesStoreAPI.Service.Clothes
             string msg = "Success";
             string nameClothToSave = clothes.name.Trim();
             string descriptionClothToSave = clothes.description.Trim();
+
             bool dataIncomplete =
                 nameClothToSave == "" ||
                 nameClothToSave == null ||
@@ -129,10 +130,5 @@ namespace ClothesStoreAPI.Service.Clothes
             }
             return msg;
         }
-
-
-
-
-
     }
 }

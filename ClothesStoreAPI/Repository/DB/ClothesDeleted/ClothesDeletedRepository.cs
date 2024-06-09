@@ -40,51 +40,52 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        public async Task<String> RestoreClothes(int id)
+        public async Task<String> RestoreClothesDeleted(int id)
+        {
+            Models.ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
+            Models.Clothes clothes = new Models.Clothes
+            {
+                name = clothesDeleted.name,
+                idColor = clothesDeleted.idColor,
+                idSize = clothesDeleted.idSize,
+                price = clothesDeleted.price,
+                description = clothesDeleted.description,
+            };
+
+            db.Clothes.Add(clothes);
+            db.ClothesDeleted.Remove(clothesDeleted);
+
+            return await TryToSaveAtDB();
+        }
+
+
+        public bool ClothesDeletedExists(int id)
+        {
+            return db.ClothesDeleted.Count(c => c.id == id) > 0;
+        }
+
+
+        public void DisposeDB()
+        {
+            db.Dispose();
+        }
+
+
+        private async Task<String> TryToSaveAtDB()
         {
             string msg = "Success";
-
-            Models.ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
-
-            if (clothesDeleted == null)
+            try
             {
-                msg = "NotFound";
+                await db.SaveChangesAsync();
             }
-            else
+            catch (DbUpdateException ex)
             {
-                try
-                {
-                    Models.Clothes clothes = new Models.Clothes
-                    {
-                        name = clothesDeleted.name,
-                        idColor = clothesDeleted.idColor,
-                        idSize = clothesDeleted.idSize,
-                        price = clothesDeleted.price,
-                        description = clothesDeleted.description,
-                    };
-
-                    db.Clothes.Add(clothes);
-                    db.ClothesDeleted.Remove(clothesDeleted);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
+                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
             }
             return msg;
         }
 
-        public async Task<Models.Clothes> GetRestoredClothes()
-        {
-            List<Models.Clothes> clothes = await db.Clothes.ToListAsync();
-            return clothes.OrderByDescending(c => c.id).FirstOrDefault();
-        }
-
-            public void DisposeDB()
-        {
-            db.Dispose();
-        }
+        
     }
 }

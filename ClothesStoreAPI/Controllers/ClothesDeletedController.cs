@@ -13,27 +13,27 @@ using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB;
 using ClothesStoreAPI.Repository.DB.ClothesDeleted;
+using ClothesStoreAPI.Service.ClothesDeleted;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ClothesDeletedController : ApiController
     {
-        private readonly IClothesDeletedRepository repository;
+        private readonly IClothesDeletedService service;
 
-        public ClothesDeletedController(IClothesDeletedRepository repository)
+
+        public ClothesDeletedController(IClothesDeletedService service)
         {
-            this.repository = repository;
+            this.service = service;
         }
-
 
 
         // GET: api/ClothesDeleted
         public IQueryable<ClothesDeleted> GetClothesDeleted()
         {
-            return repository.GetClothesDeleted();
+            return service.GetClothesDeleted();
         }
-
 
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace ClothesStoreAPI.Controllers
         {
             IHttpActionResult result;
 
-            List<ClothesDeleted> clothesDeleted = await repository.FindClothesDeletedByName(name);
+            List<ClothesDeleted> clothesDeleted = await service.FindClothesDeletedByName(name);
 
             if (clothesDeleted.Count == 0)
             {
@@ -56,16 +56,14 @@ namespace ClothesStoreAPI.Controllers
         }
 
 
-
-
         [HttpDelete]
         [Route("api/clothesDeleted/restore/{id}")]
         public async Task<IHttpActionResult> RestoreClothes(int id)
         {
-            string msg = await repository.RestoreClothes(id);
-            Clothes clothes = await repository.GetRestoredClothes();
-            return SetResultFromMsg(msg, clothes);
+            string msg = await service.RestoreClothesDeleted(id);
+            return SetResultFromMsg(msg, new SuccessResponse(msg));
         }
+
 
         private IHttpActionResult SetResultFromMsg(String msg, Object objectResult)
         {
@@ -85,11 +83,12 @@ namespace ClothesStoreAPI.Controllers
             return result;
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                repository.DisposeDB();
+                service.DisposeDB();
             }
             base.Dispose(disposing);
         }

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClothesStoreAPI.Repository.DB.ClothesDeleted
+namespace ClothesStoreAPI.Service.ClothesDeleted
 {
-    public interface IClothesDeletedRepository
+    public interface IClothesDeletedService
     {
         IQueryable<Models.ClothesDeleted> GetClothesDeleted();
         Task<List<Models.ClothesDeleted>> FindClothesDeletedByName(string name);
-        bool ClothesDeletedExists(int id);
         Task<String> RestoreClothesDeleted(int id);
         void DisposeDB();
     }
