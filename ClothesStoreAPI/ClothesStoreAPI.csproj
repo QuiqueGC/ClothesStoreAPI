@@ -234,6 +234,8 @@
     <Compile Include="Repository\DB\Sizes\ISizesRepository.cs" />
     <Compile Include="Repository\DB\Sizes\SizesRepository.cs" />
     <Compile Include="Repository\DB\Utils\ErrorMessageManager.cs" />
+    <Compile Include="Service\Clothes\ClothesService.cs" />
+    <Compile Include="Service\Clothes\IClothesService.cs" />
     <Compile Include="Service\Colors\ColorsService.cs" />
     <Compile Include="Service\Colors\IColorsService.cs" />
     <Compile Include="Service\Sizes\ISizesService.cs" />

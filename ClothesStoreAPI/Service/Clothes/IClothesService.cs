@@ -4,18 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClothesStoreAPI.Repository.DB.Clothes
+namespace ClothesStoreAPI.Service.Clothes
 {
-    public interface IClothesRepository
+    public interface IClothesService
     {
         IQueryable<Models.Clothes> GetClothes();
         Task<Models.Clothes> GetClothes(int id);
         Task<List<Models.Clothes>> FindClothesByName(string name);
-        Task<String> UpdateClothes(Models.Clothes clothes);
+        Task<String> UpdateClothes(int id, Models.Clothes clothes);
         Task<String> InsertClothes(Models.Clothes clothes);
         Task<String> DeleteClothes(int id);
-        bool ClothesAlreadyExist(Models.Clothes clothes);
-        bool ClothesExists(int id);
         void DisposeDB();
     }
 }

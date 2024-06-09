@@ -98,7 +98,7 @@ namespace ClothesStoreAPI.Service.Sizes
             string msg = "Success";
             string valueSizeToSave = size.value.Trim().ToUpper();
 
-            if (valueSizeToSave == "")
+            if (valueSizeToSave == "" || valueSizeToSave == null)
             {
                 msg = "Empty name";
             }

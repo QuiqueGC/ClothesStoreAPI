@@ -26,7 +26,7 @@ namespace ClothesStoreAPI.Utils
                     msg = "No connection to database server";
                     break;
                 case 547:
-                    msg = "Record has related data";
+                    msg = "Error with related data";
                     break;
                 case 2601:
                     msg = "Duplicate record";

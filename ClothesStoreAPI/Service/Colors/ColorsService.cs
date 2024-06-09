@@ -102,7 +102,7 @@ namespace ClothesStoreAPI.Service.Colors
             string msg = "Success";
             string nameColorToSave = colors.name.Trim().ToLower();
 
-            if (nameColorToSave == "")
+            if (nameColorToSave == "" || nameColorToSave == null)
             {
                 msg = "Empty name";
             }

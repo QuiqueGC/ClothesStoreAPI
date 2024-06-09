@@ -13,24 +13,25 @@ using System.Web.Http.Description;
 using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB;
 using ClothesStoreAPI.Repository.DB.Clothes;
+using ClothesStoreAPI.Service.Clothes;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ClothesController : ApiController
     {
-        private readonly IClothesRepository repository;
+        private readonly IClothesService service;
 
-        public ClothesController(IClothesRepository repository)
+        public ClothesController(IClothesService service)
         {
-            this.repository = repository;
+            this.service = service;
         }
 
 
         // GET: api/Clothes
         public IQueryable<Clothes> GetClothes()
         {
-            return repository.GetClothes();
+            return service.GetClothes();
         }
 
 
@@ -40,7 +41,7 @@ namespace ClothesStoreAPI.Controllers
         {
             IHttpActionResult result;
 
-            Clothes clothes = await repository.GetClothes(id);
+            Clothes clothes = await service.GetClothes(id);
 
             if (clothes == null)
             {
@@ -65,7 +66,7 @@ namespace ClothesStoreAPI.Controllers
         {
             IHttpActionResult result;
 
-            List<Clothes> clothes = await repository.FindClothesByName(name);
+            List<Clothes> clothes = await service.FindClothesByName(name);
 
             if (clothes.Count == 0)
             {
@@ -97,7 +98,7 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = await repository.UpdateClothes(id, clothes);
+                    string msg = await service.UpdateClothes(id, clothes);
                     result = SetResultFromMsg(msg, clothes);
                 }
             }
@@ -117,7 +118,7 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                string msg = await repository.InsertClothes(clothes);
+                string msg = await service.InsertClothes(clothes);
                 result = SetResultFromMsg(msg,clothes);
             }
             return result;
@@ -128,7 +129,7 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Clothes))]
         public async Task<IHttpActionResult> DeleteClothes(int id)
         {
-            string msg = await repository.DeleteClothes(id);
+            string msg = await service.DeleteClothes(id);
             return SetResultFromMsg(msg, new SuccessResponse(msg));
         }
 
@@ -156,7 +157,7 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-                repository.DisposeDB();
+                service.DisposeDB();
             }
             base.Dispose(disposing);
         }

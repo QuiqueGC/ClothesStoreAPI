@@ -50,88 +50,29 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        public async Task<String> UpdateClothes(int id, Models.Clothes clothes)
+        public async Task<String> UpdateClothes(Models.Clothes clothes)
         {
-            string msg = "Success";
             db.Entry(clothes).State = EntityState.Modified;
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClothesExists(id))
-                {
-                    msg = "NotFound";
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
+            return await TryToSaveAtDB();
         }
 
 
         public async Task<String> InsertClothes(Models.Clothes  clothes)
         {
-            string msg = "Success";
-
-            if (ClothesAlreadyExist(clothes))
-            {
-                msg = "Duplicate record";
-            }
-            else
-            {
-                db.Clothes.Add(clothes);
-
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
-            }
-            return msg;
+            db.Clothes.Add(clothes);
+            return await TryToSaveAtDB();
         }
 
 
         public async Task<String> DeleteClothes(int id)
         {
-            string msg = "Success";
-
             Models.Clothes clothes = await db.Clothes.FindAsync(id);
-            if (clothes == null)
-            {
-                msg = "NotFound";
-            }
-            else
-            {
-                try
-                {
-                    db.Clothes.Remove(clothes);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
-            }
-            return msg;
+            db.Clothes.Remove(clothes);
+            return await TryToSaveAtDB();
         }
 
 
-        private bool ClothesAlreadyExist(Models.Clothes clothes)
+        public bool ClothesAlreadyExist(Models.Clothes clothes)
         {
             return db.Clothes.Count(
                 c => c.name == clothes.name &&
@@ -143,7 +84,7 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        private bool ClothesExists(int id)
+        public bool ClothesExists(int id)
         {
             return db.Clothes.Count(c => c.id == id) > 0;
         }
@@ -152,6 +93,21 @@ namespace ClothesStoreAPI.Repository.DB
         public void DisposeDB()
         {
             db.Dispose();
+        }
+
+        private async Task<String> TryToSaveAtDB()
+        {
+            string msg = "Success";
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
+            }
+            return msg;
         }
     }
 }
