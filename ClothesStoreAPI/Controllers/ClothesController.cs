@@ -19,7 +19,7 @@ namespace ClothesStoreAPI.Controllers
 {
     public class ClothesController : ApiController
     {
-        readonly IClothesRepository repository;
+        private readonly IClothesRepository repository;
 
         public ClothesController(IClothesRepository repository)
         {

@@ -236,6 +236,8 @@
     <Compile Include="Repository\DB\Utils\ErrorMessageManager.cs" />
     <Compile Include="Service\Colors\ColorsService.cs" />
     <Compile Include="Service\Colors\IColorsService.cs" />
+    <Compile Include="Service\Sizes\ISizesService.cs" />
+    <Compile Include="Service\Sizes\SizesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

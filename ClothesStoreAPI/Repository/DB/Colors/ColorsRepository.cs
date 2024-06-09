@@ -45,29 +45,24 @@ namespace ClothesStoreAPI.Repository.DBManager
         }
 
 
-        public async Task<String> UpdateColor(int id, Colors colors)
+        public async Task<String> UpdateColor(Colors colors)
         {
             db.Entry(colors).State = EntityState.Modified;
-
             return await TryToSaveAtDB();
         }
 
 
         public async Task<String> InsertColor(Colors colors)
         {
-
             db.Colors.Add(colors);
-
             return await TryToSaveAtDB();
         }
 
 
         public async Task<String> DeleteColor(int id)
         {
-
             Colors colors = await db.Colors.FindAsync(id);
             db.Colors.Remove(colors);
-
             return await TryToSaveAtDB();
         }
 

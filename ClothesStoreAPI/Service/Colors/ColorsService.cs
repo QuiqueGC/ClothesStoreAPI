@@ -50,7 +50,7 @@ namespace ClothesStoreAPI.Service.Colors
                 msg = CheckColorData(colors);
                 if (msg == "Success")
                 {
-                    msg = await repository.UpdateColor(id, colors);
+                    msg = await repository.UpdateColor(colors);
                 }
 
             }
@@ -91,6 +91,12 @@ namespace ClothesStoreAPI.Service.Colors
         }
 
 
+        public void DisposeDB()
+        {
+            repository.DisposeDB();
+        }
+
+
         private string CheckColorData(Models.Colors colors)
         {
             string msg = "Success";
@@ -107,9 +113,6 @@ namespace ClothesStoreAPI.Service.Colors
             return msg;
         }
 
-        public void DisposeDB()
-        {
-            repository.DisposeDB();
-        }
+        
     }
 }

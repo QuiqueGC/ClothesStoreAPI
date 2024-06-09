@@ -4,18 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClothesStoreAPI.Repository.DB.Sizes
+namespace ClothesStoreAPI.Service.Sizes
 {
-    public interface ISizesRepository
+    public interface ISizesService
     {
         IQueryable<Models.Size> GetSizes();
         Task<Models.Size> GetSizeById(int id);
         Task<Models.Size> GetClothesByIdSize(int id);
-        Task<String> UpdateSize(Models.Size size);
+        Task<String> UpdateSize(int id, Models.Size size);
         Task<String> InsertSize(Models.Size size);
         Task<String> DeleteSize(int id);
-        bool SizeValueAlreadyExist(string sizeValue);
-        bool SizeExists(int id);
         void DisposeDB();
     }
 }

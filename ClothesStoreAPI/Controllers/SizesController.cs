@@ -14,26 +14,28 @@ using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB;
 using ClothesStoreAPI.Repository.DB.Sizes;
 using ClothesStoreAPI.Repository.DBManager;
+using ClothesStoreAPI.Service.Sizes;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class SizesController : ApiController
     {
-        readonly ISizesRepository repository;
+        private readonly ISizesService service;
 
-        public SizesController(ISizesRepository repository)
+
+        public SizesController(ISizesService service)
         {
-            this.repository = repository;
+            this.service = service;
         }
-
 
 
         // GET: api/Sizes
         public IQueryable<Size> GetSize()
         {
-            return repository.GetSizes();
+            return service.GetSizes();
         }
+
 
         // GET: api/Sizes/5
         [ResponseType(typeof(Size))]
@@ -41,7 +43,7 @@ namespace ClothesStoreAPI.Controllers
         {
             IHttpActionResult result;
 
-            Size size = await repository.GetSizeById(id);
+            Size size = await service.GetSizeById(id);
 
             if (size == null)
             {
@@ -55,17 +57,18 @@ namespace ClothesStoreAPI.Controllers
             return result;
         }
 
+
         /// <summary>
         /// get the size and a list of clothes filtered by its id
         /// </summary>
         /// <param name="id">int with idSize to filter</param>
-        /// <returns>Size with list of Clothes</returns>
+        /// <returns>Size object with list of Clothes</returns>
         [HttpGet]
         [Route("api/Sizes/{id}/Clothes")]
         public async Task<IHttpActionResult> GetClothesByIdSize(int id)
         {
             IHttpActionResult result;
-            Size size = await repository.GetClothesByIdSize(id);
+            Size size = await service.GetClothesByIdSize(id);
 
             if (size == null)
             {
@@ -98,13 +101,12 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = await repository.UpdateSize(id, size);
+                    string msg = await service.UpdateSize(id, size);
                     result = SetResultFromMsg(msg, size);
                 }
             }
             return result;
         }
-
         
 
         // POST: api/Sizes
@@ -119,19 +121,18 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                string msg = await repository.InsertSize(size);
+                string msg = await service.InsertSize(size);
                 result = SetResultFromMsg(msg, size);
             }
             return result;
         }
 
 
-
         // DELETE: api/Sizes/5
         [ResponseType(typeof(Size))]
         public async Task<IHttpActionResult> DeleteSize(int id)
         {
-            String msg = await repository.DeleteSize(id);
+            String msg = await service.DeleteSize(id);
             return SetResultFromMsg(msg, new SuccessResponse(msg));
         }
 
@@ -160,7 +161,7 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-                repository.DisposeDB();
+                service.DisposeDB();
             }
             base.Dispose(disposing);
         }

@@ -45,85 +45,25 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        public async Task<String> UpdateSize(int id, Size size)
+        public async Task<String> UpdateSize(Size size)
         {
-            string msg = "Success";
             db.Entry(size).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SizeExists(id))
-                {
-                    msg = "NotFound";
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
+            return await TryToSaveAtDB();
         }
 
 
         public async Task<String> InsertSize(Size size)
         {
-            String msg = "Success";
-
-            if (SizeValueAlreadyExist(size.value))
-            {
-                msg = "Duplicate record";
-            }
-            else
-            {
-                db.Size.Add(size);
-
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
-            }
-            return msg;
+            db.Size.Add(size);
+            return await TryToSaveAtDB();
         }
 
 
         public async Task<String> DeleteSize(int id)
         {
             Size size = await db.Size.FindAsync(id);
-            string msg = "Success";
-
-            if (size == null)
-            {
-                msg = "NotFound";
-            }
-            else
-            {
-                db.Size.Remove(size);
-
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
-            }
-            return msg;
+            db.Size.Remove(size);
+            return await TryToSaveAtDB();
         }
 
 
@@ -133,15 +73,31 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        private bool SizeValueAlreadyExist(string sizeValue)
+        public bool SizeValueAlreadyExist(string sizeValue)
         {
             return db.Size.Count(c => c.value == sizeValue) > 0;
         }
 
 
-        private bool SizeExists(int id)
+        public bool SizeExists(int id)
         {
             return db.Size.Count(e => e.id == id) > 0;
+        }
+
+
+        private async Task<String> TryToSaveAtDB()
+        {
+            string msg = "Success";
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
+            }
+            return msg;
         }
     }
 }
