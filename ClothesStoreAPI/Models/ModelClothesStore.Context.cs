@@ -9,9 +9,11 @@
 
 namespace ClothesStoreAPI.Models
 {
+    using ClothesStoreAPI.Utils;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.SqlClient;
     using System.Threading.Tasks;
 
     public interface IClothesStoreEntities
@@ -24,6 +26,7 @@ namespace ClothesStoreAPI.Models
         int SaveChanges();
         Task<int> SaveChangesAsync();
         void Dispose();
+        Task<String> TryToSaveData();
     }
 
 
@@ -64,6 +67,22 @@ namespace ClothesStoreAPI.Models
         void IClothesStoreEntities.Dispose()
         {
             this.Dispose();
+        }
+
+
+        async Task<string> IClothesStoreEntities.TryToSaveData()
+        {
+            string msg = "Success";
+            try
+            {
+                await this.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
+            }
+            return msg;
         }
     }
 }

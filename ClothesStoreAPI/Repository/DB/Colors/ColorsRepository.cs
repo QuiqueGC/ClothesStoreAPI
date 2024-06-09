@@ -48,14 +48,14 @@ namespace ClothesStoreAPI.Repository.DBManager
         public async Task<String> UpdateColor(Colors colors)
         {
             db.Entry(colors).State = EntityState.Modified;
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
         public async Task<String> InsertColor(Colors colors)
         {
             db.Colors.Add(colors);
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -63,7 +63,7 @@ namespace ClothesStoreAPI.Repository.DBManager
         {
             Colors colors = await db.Colors.FindAsync(id);
             db.Colors.Remove(colors);
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -82,22 +82,6 @@ namespace ClothesStoreAPI.Repository.DBManager
         public bool ColorNameAlreadyExist(String colorName)
         {
             return db.Colors.Count(c => c.name == colorName) > 0;
-        }
-
-
-        private async Task<String> TryToSaveAtDB()
-        {
-            string msg = "Success";
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
         }
     }
 }

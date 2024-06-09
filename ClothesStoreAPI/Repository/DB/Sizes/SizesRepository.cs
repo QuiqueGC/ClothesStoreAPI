@@ -48,14 +48,14 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<String> UpdateSize(Size size)
         {
             db.Entry(size).State = EntityState.Modified;
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
         public async Task<String> InsertSize(Size size)
         {
             db.Size.Add(size);
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -63,7 +63,7 @@ namespace ClothesStoreAPI.Repository.DB
         {
             Size size = await db.Size.FindAsync(id);
             db.Size.Remove(size);
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -82,22 +82,6 @@ namespace ClothesStoreAPI.Repository.DB
         public bool SizeExists(int id)
         {
             return db.Size.Count(e => e.id == id) > 0;
-        }
-
-
-        private async Task<String> TryToSaveAtDB()
-        {
-            string msg = "Success";
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
         }
     }
 }

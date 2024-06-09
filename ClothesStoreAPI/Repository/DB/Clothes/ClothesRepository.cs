@@ -53,14 +53,14 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<String> UpdateClothes(Models.Clothes clothes)
         {
             db.Entry(clothes).State = EntityState.Modified;
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
         public async Task<String> InsertClothes(Models.Clothes  clothes)
         {
             db.Clothes.Add(clothes);
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -68,7 +68,7 @@ namespace ClothesStoreAPI.Repository.DB
         {
             Models.Clothes clothes = await db.Clothes.FindAsync(id);
             db.Clothes.Remove(clothes);
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -95,19 +95,6 @@ namespace ClothesStoreAPI.Repository.DB
             db.Dispose();
         }
 
-        private async Task<String> TryToSaveAtDB()
-        {
-            string msg = "Success";
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
-        }
+        
     }
 }

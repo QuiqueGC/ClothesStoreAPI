@@ -55,7 +55,7 @@ namespace ClothesStoreAPI.Repository.DB
             db.Clothes.Add(clothes);
             db.ClothesDeleted.Remove(clothesDeleted);
 
-            return await TryToSaveAtDB();
+            return await db.TryToSaveData();
         }
 
 
@@ -70,22 +70,5 @@ namespace ClothesStoreAPI.Repository.DB
             db.Dispose();
         }
 
-
-        private async Task<String> TryToSaveAtDB()
-        {
-            string msg = "Success";
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
-        }
-
-        
     }
 }
