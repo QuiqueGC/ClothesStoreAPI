@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace ClothesStoreAPI.Repository.DBManager
 {
-    public class ColorsRepository: DB.Colors.IColorsRepository
+    public class ColorsRepository : DB.Colors.IColorsRepository
     {
         private readonly IClothesStoreEntities db;
 
@@ -47,84 +47,28 @@ namespace ClothesStoreAPI.Repository.DBManager
 
         public async Task<String> UpdateColor(int id, Colors colors)
         {
-            string msg = "Success";
             db.Entry(colors).State = EntityState.Modified;
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ColorsExists(id))
-                {
-                    msg = "NotFound";
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            catch (DbUpdateException ex)
-            {
-                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                msg = ErrorMessageManager.GetErrorMessage(sqlException);
-            }
-            return msg;
+            return await TryToSaveAtDB();
         }
 
 
         public async Task<String> InsertColor(Colors colors)
         {
-            String msg = "Success";
 
-            if (ColorNameAlreadyExist(colors.name))
-            {
-                msg = "Duplicate record";
-            }
-            else
-            {
-                db.Colors.Add(colors);
+            db.Colors.Add(colors);
 
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
-            }
-
-            return msg;
+            return await TryToSaveAtDB();
         }
 
 
         public async Task<String> DeleteColor(int id)
         {
+
             Colors colors = await db.Colors.FindAsync(id);
-            string msg = "Success";
+            db.Colors.Remove(colors);
 
-            if (colors == null)
-            {
-                msg = "NotFound";
-            }
-            else
-            {
-                db.Colors.Remove(colors);
-
-                try
-                {
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    SqlException sqlException = (SqlException)ex.InnerException.InnerException;
-                    msg = ErrorMessageManager.GetErrorMessage(sqlException);
-                }
-            }
-            return msg;
+            return await TryToSaveAtDB();
         }
 
 
@@ -134,15 +78,31 @@ namespace ClothesStoreAPI.Repository.DBManager
         }
 
 
-        private bool ColorsExists(int id)
+        public bool ColorsExists(int id)
         {
             return db.Colors.Count(c => c.id == id) > 0;
         }
 
 
-        private bool ColorNameAlreadyExist(String colorName)
+        public bool ColorNameAlreadyExist(String colorName)
         {
             return db.Colors.Count(c => c.name == colorName) > 0;
+        }
+
+
+        private async Task<String> TryToSaveAtDB()
+        {
+            string msg = "Success";
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                SqlException sqlException = (SqlException)ex.InnerException.InnerException;
+                msg = ErrorMessageManager.GetErrorMessage(sqlException);
+            }
+            return msg;
         }
     }
 }

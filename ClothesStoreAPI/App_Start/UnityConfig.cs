@@ -5,6 +5,7 @@ using ClothesStoreAPI.Repository.DB.ClothesDeleted;
 using ClothesStoreAPI.Repository.DB.Colors;
 using ClothesStoreAPI.Repository.DB.Sizes;
 using ClothesStoreAPI.Repository.DBManager;
+using ClothesStoreAPI.Service.Colors;
 using System;
 using System.Web.Http;
 using Unity;
@@ -56,6 +57,7 @@ namespace ClothesStoreAPI
             container.RegisterType<ISizesRepository, SizesRepository>();
             container.RegisterType<IClothesRepository, ClothesRepository>();
             container.RegisterType<IClothesDeletedRepository, ClothesDeletedRepository>();
+            container.RegisterType<IColorsService, ColorsService>();
         }   
             
         internal static void RegisterComponents()

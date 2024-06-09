@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ClothesStoreAPI.Models;
 
-namespace ClothesStoreAPI.Repository.DB.Colors
+namespace ClothesStoreAPI.Service.Colors
 {
-    public interface IColorsRepository
+    public interface IColorsService
     {
         IQueryable<Models.Colors> GetColors();
         Task<Models.Colors> GetColorById(int id);
@@ -15,8 +14,6 @@ namespace ClothesStoreAPI.Repository.DB.Colors
         Task<String> UpdateColor(int id, Models.Colors colors);
         Task<String> InsertColor(Models.Colors colors);
         Task<String> DeleteColor(int id);
-        bool ColorNameAlreadyExist(String colorName);
-        bool ColorsExists(int id);
         void DisposeDB();
     }
 }

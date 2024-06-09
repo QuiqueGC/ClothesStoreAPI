@@ -14,23 +14,24 @@ using System.Web.Http.Results;
 using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB.Colors;
 using ClothesStoreAPI.Repository.DBManager;
+using ClothesStoreAPI.Service.Colors;
 using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
     public class ColorsController : ApiController
     {
-        private readonly IColorsRepository repository;
+        private readonly IColorsService service;
 
-        public ColorsController(IColorsRepository colorsRepository)
+        public ColorsController(IColorsService service)
         {
-            repository = colorsRepository;
+            this.service = service;
         }
 
         // GET: api/Colors
         public IQueryable<Colors> GetColors()
         {
-            return repository.GetColors();
+            return service.GetColors();
         }
 
         // GET: api/Colors/5
@@ -38,7 +39,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> GetColors(int id)
         {
             IHttpActionResult result;
-            Colors colors = await repository.GetColorById(id);
+            Colors colors = await service.GetColorById(id);
 
             if (colors == null)
             {
@@ -63,7 +64,7 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> GetClothesByIdColor(int id)
         {
             IHttpActionResult result;
-            Colors colors = await repository.GetClothesByIdColor(id);
+            Colors colors = await service.GetClothesByIdColor(id);
 
             if (colors == null)
             {
@@ -96,8 +97,8 @@ namespace ClothesStoreAPI.Controllers
                 }
                 else
                 {
-                    string msg = await repository.UpdateColor(id, colors);
-                    result = setResult(msg, colors);
+                    string msg = await service.UpdateColor(id, colors);
+                    result = SetResult(msg, colors);
                 }
             }
             return result;
@@ -119,8 +120,8 @@ namespace ClothesStoreAPI.Controllers
             }
             else
             {
-                string msg = await repository.InsertColor(colors);
-                result = setResult(msg, colors);
+                string msg = await service.InsertColor(colors);
+                result = SetResult(msg, colors);
             }
             return result;
         }
@@ -132,13 +133,13 @@ namespace ClothesStoreAPI.Controllers
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> DeleteColors(int id)
         {
-            String msg = await repository.DeleteColor(id);
-            return setResult(msg, new SuccessResponse(msg));
+            String msg = await service.DeleteColor(id);
+            return SetResult(msg, new SuccessResponse(msg));
         }
 
 
 
-        private IHttpActionResult setResult(String msg, Object objectResult)
+        private IHttpActionResult SetResult(String msg, Object objectResult)
         {
             IHttpActionResult result;
             switch (msg)
@@ -162,7 +163,7 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-               repository.DisposeDB();
+               service.DisposeDB();
             }
             base.Dispose(disposing);
         }
