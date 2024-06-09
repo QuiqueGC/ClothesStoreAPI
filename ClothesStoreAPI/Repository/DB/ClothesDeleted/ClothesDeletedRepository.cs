@@ -76,8 +76,13 @@ namespace ClothesStoreAPI.Repository.DB
             return msg;
         }
 
+        public async Task<Models.Clothes> GetRestoredClothes()
+        {
+            List<Models.Clothes> clothes = await db.Clothes.ToListAsync();
+            return clothes.OrderByDescending(c => c.id).FirstOrDefault();
+        }
 
-        public void DisposeDB()
+            public void DisposeDB()
         {
             db.Dispose();
         }

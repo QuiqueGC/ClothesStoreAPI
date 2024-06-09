@@ -97,7 +97,7 @@ namespace ClothesStoreAPI.Controllers
                 else
                 {
                     string msg = await repository.UpdateColor(id, colors);
-                    result = SetResultFromMsg(msg);
+                    result = setResult(msg, colors);
                 }
             }
             return result;
@@ -120,7 +120,7 @@ namespace ClothesStoreAPI.Controllers
             else
             {
                 string msg = await repository.InsertColor(colors);
-                result = SetResultFromMsg(msg);
+                result = setResult(msg, colors);
             }
             return result;
         }
@@ -133,18 +133,18 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> DeleteColors(int id)
         {
             String msg = await repository.DeleteColor(id);
-            return SetResultFromMsg(msg);
+            return setResult(msg, new SuccessResponse(msg));
         }
 
 
 
-        private IHttpActionResult SetResultFromMsg(String msg)
+        private IHttpActionResult setResult(String msg, Object objectResult)
         {
             IHttpActionResult result;
             switch (msg)
             {
                 case "Success":
-                    result = Ok(new SuccessResponse(msg));
+                    result = Ok(objectResult);
                     break;
                 case "NotFound":
                     result = NotFound();

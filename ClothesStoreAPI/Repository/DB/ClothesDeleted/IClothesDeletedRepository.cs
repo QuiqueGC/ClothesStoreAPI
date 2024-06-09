@@ -10,6 +10,7 @@ namespace ClothesStoreAPI.Repository.DB.ClothesDeleted
     {
         IQueryable<Models.ClothesDeleted> GetClothesDeleted();
         Task<List<Models.ClothesDeleted>> FindClothesDeletedByName(string name);
+        Task<Models.Clothes> GetRestoredClothes();
         Task<String> RestoreClothes(int id);
         void DisposeDB();
     }

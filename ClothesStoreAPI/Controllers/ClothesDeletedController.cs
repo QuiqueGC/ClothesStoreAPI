@@ -63,19 +63,17 @@ namespace ClothesStoreAPI.Controllers
         public async Task<IHttpActionResult> RestoreClothes(int id)
         {
             string msg = await repository.RestoreClothes(id);
-            return SetResultFromMsg(msg);
+            Clothes clothes = await repository.GetRestoredClothes();
+            return SetResultFromMsg(msg, clothes);
         }
 
-
-
-
-        private IHttpActionResult SetResultFromMsg(String msg)
+        private IHttpActionResult SetResultFromMsg(String msg, Object objectResult)
         {
             IHttpActionResult result;
             switch (msg)
             {
                 case "Success":
-                    result = Ok(new SuccessResponse(msg));
+                    result = Ok(objectResult);
                     break;
                 case "NotFound":
                     result = NotFound();
