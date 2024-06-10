@@ -12,8 +12,6 @@ using ClothesStoreAPI.Service.Sizes;
 using System;
 using System.Web.Http;
 using Unity;
-using Unity.AspNet.Mvc;
-using Unity.AspNet.WebApi;
 
 namespace ClothesStoreAPI
 {
@@ -64,8 +62,8 @@ namespace ClothesStoreAPI
             container.RegisterType<ISizesService, SizesService>();
             container.RegisterType<IClothesService, ClothesService>();
             container.RegisterType<IClothesDeletedService, ClothesDeletedService>();
-        }   
-            
+        }
+
         internal static void RegisterComponents()
         {
             var container = new UnityContainer();

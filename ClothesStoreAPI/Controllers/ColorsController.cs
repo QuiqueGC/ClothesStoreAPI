@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
+﻿using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Service.Colors;
+using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Results;
-using ClothesStoreAPI.Models;
-using ClothesStoreAPI.Repository.DB.Colors;
-using ClothesStoreAPI.Repository.DBManager;
-using ClothesStoreAPI.Service.Colors;
-using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
@@ -104,7 +93,7 @@ namespace ClothesStoreAPI.Controllers
             return result;
         }
 
-        
+
 
 
 
@@ -163,7 +152,7 @@ namespace ClothesStoreAPI.Controllers
         {
             if (disposing)
             {
-               service.DisposeDB();
+                service.DisposeDB();
             }
             base.Dispose(disposing);
         }

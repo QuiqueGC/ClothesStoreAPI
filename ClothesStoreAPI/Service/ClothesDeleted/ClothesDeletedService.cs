@@ -1,10 +1,7 @@
-﻿using ClothesStoreAPI.Repository.DB.Clothes;
-using ClothesStoreAPI.Repository.DB.ClothesDeleted;
-using System;
+﻿using ClothesStoreAPI.Repository.DB.ClothesDeleted;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace ClothesStoreAPI.Service.ClothesDeleted
 {

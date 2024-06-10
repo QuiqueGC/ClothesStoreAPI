@@ -1,16 +1,8 @@
 ﻿using ClothesStoreAPI.Models;
-using ClothesStoreAPI.Utils;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Results;
-using System.Xml.Linq;
 
 namespace ClothesStoreAPI.Repository.DBManager
 {

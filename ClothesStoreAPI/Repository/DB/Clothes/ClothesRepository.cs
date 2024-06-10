@@ -1,17 +1,10 @@
 ﻿using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB.Clothes;
-using ClothesStoreAPI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Results;
 
 namespace ClothesStoreAPI.Repository.DB
 {
@@ -57,7 +50,7 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
-        public async Task<String> InsertClothes(Models.Clothes  clothes)
+        public async Task<String> InsertClothes(Models.Clothes clothes)
         {
             db.Clothes.Add(clothes);
             return await db.TryToSaveData();
@@ -95,6 +88,6 @@ namespace ClothesStoreAPI.Repository.DB
             db.Dispose();
         }
 
-        
+
     }
 }

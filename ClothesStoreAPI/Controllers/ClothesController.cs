@@ -1,20 +1,11 @@
-﻿using System;
+﻿using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Service.Clothes;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ClothesStoreAPI.Models;
-using ClothesStoreAPI.Repository.DB;
-using ClothesStoreAPI.Repository.DB.Clothes;
-using ClothesStoreAPI.Service.Clothes;
-using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
@@ -119,7 +110,7 @@ namespace ClothesStoreAPI.Controllers
             else
             {
                 string msg = await service.InsertClothes(clothes);
-                result = SetResultFromMsg(msg,clothes);
+                result = SetResultFromMsg(msg, clothes);
             }
             return result;
         }

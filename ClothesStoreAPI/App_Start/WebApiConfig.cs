@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace ClothesStoreAPI
 {
@@ -14,7 +11,7 @@ namespace ClothesStoreAPI
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-         
+
             json.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             json.SerializerSettings.PreserveReferencesHandling =

@@ -3,19 +3,11 @@ using ClothesStoreAPI.Repository.DB.Clothes;
 using ClothesStoreAPI.Repository.DB.ClothesDeleted;
 using ClothesStoreAPI.Repository.DB.Colors;
 using ClothesStoreAPI.Repository.DB.Sizes;
-using ClothesStoreAPI.Repository.DB;
-using ClothesStoreAPI.Repository.DBManager;
 using ClothesStoreAPI.Service.Clothes;
 using ClothesStoreAPI.Service.ClothesDeleted;
 using ClothesStoreAPI.Service.Colors;
 using ClothesStoreAPI.Service.Sizes;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClothesStoreAPITest.DITest
 {

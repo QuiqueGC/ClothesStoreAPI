@@ -1,9 +1,7 @@
 ﻿using ClothesStoreAPI.Repository.DB.Clothes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace ClothesStoreAPI.Service.Clothes
 {
@@ -48,14 +46,14 @@ namespace ClothesStoreAPI.Service.Clothes
             {
                 msg = CheckClothesData(clothes);
 
-                if(msg == "Success")
+                if (msg == "Success")
                 {
                     msg = await repository.UpdateClothes(clothes);
                 }
             }
             return msg;
         }
-        
+
 
         public async Task<string> InsertClothes(Models.Clothes clothes)
         {
@@ -106,7 +104,7 @@ namespace ClothesStoreAPI.Service.Clothes
                 nameClothToSave == null ||
                 descriptionClothToSave == "" ||
                 descriptionClothToSave == null;
-           
+
             if (dataIncomplete)
             {
                 msg = "Data incomplete";

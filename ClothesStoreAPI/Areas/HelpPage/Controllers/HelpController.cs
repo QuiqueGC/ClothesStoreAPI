@@ -1,8 +1,8 @@
+using ClothesStoreAPI.Areas.HelpPage.ModelDescriptions;
+using ClothesStoreAPI.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using ClothesStoreAPI.Areas.HelpPage.ModelDescriptions;
-using ClothesStoreAPI.Areas.HelpPage.Models;
 
 namespace ClothesStoreAPI.Areas.HelpPage.Controllers
 {

@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
+﻿using ClothesStoreAPI.Models;
+using ClothesStoreAPI.Service.Sizes;
+using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ClothesStoreAPI.Models;
-using ClothesStoreAPI.Repository.DB;
-using ClothesStoreAPI.Repository.DB.Sizes;
-using ClothesStoreAPI.Repository.DBManager;
-using ClothesStoreAPI.Service.Sizes;
-using ClothesStoreAPI.Utils;
 
 namespace ClothesStoreAPI.Controllers
 {
@@ -107,7 +96,7 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
-        
+
 
         // POST: api/Sizes
         [ResponseType(typeof(Size))]
@@ -166,6 +155,6 @@ namespace ClothesStoreAPI.Controllers
             base.Dispose(disposing);
         }
 
-        
+
     }
 }

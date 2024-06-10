@@ -1,10 +1,7 @@
 ﻿using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB.Sizes;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace ClothesStoreAPI.Service.Sizes
 {
@@ -21,7 +18,7 @@ namespace ClothesStoreAPI.Service.Sizes
 
         public IQueryable<Size> GetSizes()
         {
-           return repository.GetSizes();
+            return repository.GetSizes();
         }
         public Task<Size> GetSizeById(int id)
         {

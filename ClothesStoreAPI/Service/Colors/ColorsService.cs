@@ -1,10 +1,6 @@
 ﻿using ClothesStoreAPI.Repository.DB.Colors;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace ClothesStoreAPI.Service.Colors
 {
@@ -113,6 +109,6 @@ namespace ClothesStoreAPI.Service.Colors
             return msg;
         }
 
-        
+
     }
 }

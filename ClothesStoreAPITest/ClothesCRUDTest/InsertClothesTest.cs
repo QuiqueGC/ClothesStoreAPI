@@ -1,7 +1,6 @@
+using ClothesStoreAPI.Models;
 using ClothesStoreAPI.Repository.DB.Clothes;
 using ClothesStoreAPI.Service.Clothes;
-using ClothesStoreAPI.Models;
-using System.Diagnostics;
 using Moq;
 
 namespace ClothesStoreAPITest.ClothesCRUDTest
@@ -37,13 +36,13 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
 
 
         [Theory]
-        [InlineData("Lorem ipsum", 1, 1, -88.88, "Lorem ipsum dolor sit amet, consectetur", 
+        [InlineData("Lorem ipsum", 1, 1, -88.88, "Lorem ipsum dolor sit amet, consectetur",
             "Invalid price")
             ]
         [InlineData("       ", 1, 1, 88.88, "         ",
             "Data incomplete")
             ]
-        [InlineData("Lorem ipsum dolor sit amet, consectetur", 1, 1, 88.88, "Lorem ipsum dolor sit amet, consectetur", 
+        [InlineData("Lorem ipsum dolor sit amet, consectetur", 1, 1, 88.88, "Lorem ipsum dolor sit amet, consectetur",
             "Name too long")
             ]
         [InlineData(
@@ -55,7 +54,7 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
             " in reprehenderit.",
             "Description too long")
             ]
-       [InlineData("Lorem ipsum", -1, 1, 88.88, "Lorem ipsum dolor sit amet, consectetur",
+        [InlineData("Lorem ipsum", -1, 1, 88.88, "Lorem ipsum dolor sit amet, consectetur",
             "Invalid idColor")
             ]
         [InlineData("Lorem ipsum", 1, -1, 88.88, "Lorem ipsum dolor sit amet, consectetur",
