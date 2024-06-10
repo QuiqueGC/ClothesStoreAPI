@@ -22,7 +22,7 @@ namespace ClothesStoreAPITest.DITest
     public class DITest
     {
         [Fact]
-        public void InterfacesTest_ShouldBeInjected()
+        public void DependenciesTest_ShouldBeInjected()
         {
 
             // Arrange

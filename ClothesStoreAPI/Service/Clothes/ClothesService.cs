@@ -111,6 +111,10 @@ namespace ClothesStoreAPI.Service.Clothes
             {
                 msg = "Data incomplete";
             }
+            else if (nameClothToSave.Length > 20)
+            {
+                msg = "Name too long";
+            }
             else if (descriptionClothToSave.Length > 256)
             {
                 msg = "Description too long";

@@ -8,6 +8,7 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
 {
     public class InsertClothesTest
     {
+
         [Fact]
         public async void InsertClothes_ShouldInsertClothesCorrectly()
         {
@@ -17,19 +18,16 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
             string expectedResult = "Success";
             Clothes newClothes = new()
             {
-                name = "Test",
+                name = "Lorem ipsum",
                 idColor = 1,
                 idSize = 1,
                 price = 29.99,
-                description = "Abrígate bien, que te va a coger el frío"
+                description = "Lorem ipsum dolor sit amet, consectetur"
             };
             fakeClothesRepository.Setup(r => r.InsertClothes(It.IsAny<Clothes>())).ReturnsAsync(expectedResult);
 
-
-
             // Act
             string actualResult = await clothesService.InsertClothes(newClothes);
-
 
             // Assert
             fakeClothesRepository.Verify(r => r.InsertClothes(newClothes), Times.Once);
@@ -37,61 +35,52 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
         }
 
 
-        [Fact]
-        public async void InsertClothes_ShouldReturnInvalidPrice()
+
+        [Theory]
+        [InlineData("Lorem ipsum", 1, 1, -88.88, "Lorem ipsum dolor sit amet, consectetur", 
+            "Invalid price")
+            ]
+        [InlineData("       ", 1, 1, 88.88, "         ",
+            "Data incomplete")
+            ]
+        [InlineData("Lorem ipsum dolor sit amet, consectetur", 1, 1, 88.88, "Lorem ipsum dolor sit amet, consectetur", 
+            "Name too long")
+            ]
+        [InlineData(
+            "Lorem ipsum", 1, 1, 88.88,
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+            " Sed do eiusmod tempor incididunt ut labore et dolore magna" +
+            " aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco" +
+            " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor" +
+            " in reprehenderit.",
+            "Description too long")
+            ]
+       [InlineData("Lorem ipsum", -1, 1, 88.88, "Lorem ipsum dolor sit amet, consectetur",
+            "Invalid idColor")
+            ]
+        [InlineData("Lorem ipsum", 1, -1, 88.88, "Lorem ipsum dolor sit amet, consectetur",
+            "Invalid idSize")
+            ]
+        public async void InsertClothes_ValidationFailed(string name, int idColor, int idSize, double price, string description, string expectedErrorMsg)
         {
             // Arrange
-            var fakeClothesRepository = new Mock<IClothesRepository>();
-            var clothesService = new ClothesService(fakeClothesRepository.Object);
-            string expectedResult = "Invalid price";
+            Mock<IClothesRepository> fakeClothesRepository = new();
+            ClothesService clothesService = new(fakeClothesRepository.Object);
             Clothes newClothes = new()
             {
-                name = "Test",
-                idColor = 1,
-                idSize = 1,
-                price = -88.8,
-                description = "Abrígate bien, que te va a coger el frío"
+                name = name,
+                idColor = idColor,
+                idSize = idSize,
+                price = price,
+                description = description
             };
-            fakeClothesRepository.Setup(r => r.InsertClothes(It.IsAny<Clothes>())).ReturnsAsync(expectedResult);
-
 
             // Act
             string actualResult = await clothesService.InsertClothes(newClothes);
 
-
             // Assert
             fakeClothesRepository.Verify(r => r.InsertClothes(newClothes), Times.Never);
-            Assert.Equal(expectedResult, actualResult);
+            Assert.Equal(expectedErrorMsg, actualResult);
         }
-
-
-        [Fact]
-        public async void InsertClothes_ShouldReturnDataIncomplete()
-        {
-            // Arrange
-            var fakeClothesRepository = new Mock<IClothesRepository>();
-            var clothesService = new ClothesService(fakeClothesRepository.Object);
-            string expectedResult = "Data incomplete";
-            Clothes newClothes = new()
-            {
-                name = "       ",
-                idColor = 1,
-                idSize = 1,
-                price = 99.99,
-                description = "             "
-            };
-            fakeClothesRepository.Setup(r => r.InsertClothes(It.IsAny<Clothes>())).ReturnsAsync(expectedResult);
-
-
-            // Act
-            string actualResult = await clothesService.InsertClothes(newClothes);
-
-
-            // Assert
-            fakeClothesRepository.Verify(r => r.InsertClothes(newClothes), Times.Never);
-            Assert.Equal(expectedResult, actualResult);
-        }
-
-
     }
 }
