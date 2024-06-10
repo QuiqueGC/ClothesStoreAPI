@@ -16,12 +16,13 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
         public async void UpdateClothes_ShouldUpdateClothesCorrectly()
         {
             // Arrange
+            int existentId = 9;
             var fakeClothesRepository = new Mock<IClothesRepository>();
             var clothesService = new ClothesService(fakeClothesRepository.Object);
             string expectedResult = "Success";
             Clothes newClothes = new()
             {
-                id = 9,
+                id = existentId,
                 name = "Abrigo de plumas",
                 idColor = 1,
                 idSize = 1,
@@ -34,7 +35,7 @@ namespace ClothesStoreAPITest.ClothesCRUDTest
 
 
             // Act
-            string actualResult = await clothesService.UpdateClothes(newClothes.id, newClothes);
+            string actualResult = await clothesService.UpdateClothes(existentId, newClothes);
 
 
             // Assert
