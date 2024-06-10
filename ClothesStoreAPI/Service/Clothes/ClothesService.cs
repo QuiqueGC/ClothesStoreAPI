@@ -9,7 +9,7 @@ namespace ClothesStoreAPI.Service.Clothes
 {
     public class ClothesService : IClothesService
     {
-        IClothesRepository repository;
+        readonly IClothesRepository repository;
 
 
         public ClothesService(IClothesRepository repository)
@@ -110,6 +110,10 @@ namespace ClothesStoreAPI.Service.Clothes
             if (dataIncomplete)
             {
                 msg = "Data incomplete";
+            }
+            else if (descriptionClothToSave.Length > 256)
+            {
+                msg = "Description too long";
             }
             else if (clothes.idColor <= 0)
             {

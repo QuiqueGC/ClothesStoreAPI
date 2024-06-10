@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesStoreAPI", "ClothesStoreAPI\ClothesStoreAPI.csproj", "{C2BC0AB3-FD5A-4C28-8E1B-14E01D0ADDFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesStoreAPITest", "ClothesStoreAPITest\ClothesStoreAPITest.csproj", "{957E9B26-DF83-4937-B66E-5D1E7E7AFD3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C2BC0AB3-FD5A-4C28-8E1B-14E01D0ADDFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2BC0AB3-FD5A-4C28-8E1B-14E01D0ADDFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2BC0AB3-FD5A-4C28-8E1B-14E01D0ADDFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{957E9B26-DF83-4937-B66E-5D1E7E7AFD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{957E9B26-DF83-4937-B66E-5D1E7E7AFD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{957E9B26-DF83-4937-B66E-5D1E7E7AFD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{957E9B26-DF83-4937-B66E-5D1E7E7AFD3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
