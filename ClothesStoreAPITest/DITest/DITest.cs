@@ -22,7 +22,7 @@ namespace ClothesStoreAPITest.DITest
     public class DITest
     {
         [Fact]
-        public void TestDependencyInjection()
+        public void InterfacesTest_ShouldBeInjected()
         {
 
             // Arrange
@@ -35,7 +35,6 @@ namespace ClothesStoreAPITest.DITest
             var mockClothesService = new Mock<IClothesService>();
             var mockSizesService = new Mock<ISizesService>();
             var mockClothesDeletedService = new Mock<IClothesDeletedService>();
-            // Configura cualquier comportamiento necesario en el mock
 
             // Act
             IClothesStoreEntities clothesStoreEntities = mockClothesStoreEntites.Object;
