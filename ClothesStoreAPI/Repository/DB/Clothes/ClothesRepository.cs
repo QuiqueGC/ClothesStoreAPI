@@ -36,7 +36,7 @@ namespace ClothesStoreAPI.Repository.DB
         public async Task<List<Models.Clothes>> FindClothesByName(string name)
         {
             List<Models.Clothes> clothes = await db.Clothes
-                .Where(c => c.name.Contains(name))
+                .Where(c => c.name.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
 
             return clothes;
