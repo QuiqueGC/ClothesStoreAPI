@@ -9,11 +9,11 @@ namespace ClothesStoreAPI.Service.Clothes
     {
         readonly IClothesRepository repository;
 
-
         public ClothesService(IClothesRepository repository)
         {
             this.repository = repository;
         }
+
 
 
         public IQueryable<Models.Clothes> GetClothes()
@@ -28,6 +28,11 @@ namespace ClothesStoreAPI.Service.Clothes
         }
 
 
+        /// <summary>
+        /// get a list of clothes filtered by name
+        /// </summary>
+        /// <param name="name">string with the name to find</param>
+        /// <returns>list of clothes</returns>
         public Task<List<Models.Clothes>> FindClothesByName(string name)
         {
             return repository.FindClothesByName(name);
@@ -92,7 +97,12 @@ namespace ClothesStoreAPI.Service.Clothes
             repository.DisposeDB();
         }
 
-
+        /// <summary>
+        /// check if the data of the Clothes object is valid
+        /// to do the insert at DB
+        /// </summary>
+        /// <param name="clothes">Clothes object to check</param>
+        /// <returns>string msg with the info to respond</returns>
         private string CheckClothesData(Models.Clothes clothes)
         {
             string msg = "Success";

@@ -15,6 +15,7 @@ namespace ClothesStoreAPI.Service.Colors
         }
 
 
+
         public IQueryable<Models.Colors> GetColors()
         {
             return repository.GetColors();
@@ -27,6 +28,11 @@ namespace ClothesStoreAPI.Service.Colors
         }
 
 
+        /// <summary>
+        /// get the color and a list of clothes filtered by its id
+        /// </summary>
+        /// <param name="id">int with idColor to filter</param>
+        /// <returns>Color with list of Clothes</returns>
         public Task<Models.Colors> GetClothesByIdColor(int id)
         {
             return repository.GetClothesByIdColor(id);
@@ -93,6 +99,11 @@ namespace ClothesStoreAPI.Service.Colors
         }
 
 
+        /// <summary>
+        /// Check if the data of Colors object is valid to do the insert
+        /// </summary>
+        /// <param name="colors">Colors object to check</param>
+        /// <returns>string msg with the response to give</returns>
         private string CheckColorData(Models.Colors colors)
         {
             string msg = "Success";

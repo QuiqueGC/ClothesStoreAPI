@@ -16,14 +16,24 @@ namespace ClothesStoreAPI.Service.Sizes
         }
 
 
+
         public IQueryable<Size> GetSizes()
         {
             return repository.GetSizes();
         }
+
+
         public Task<Size> GetSizeById(int id)
         {
             return repository.GetSizeById(id);
         }
+
+
+        /// <summary>
+        /// get the size and a list of clothes filtered by its id
+        /// </summary>
+        /// <param name="id">int with idSize to filter</param>
+        /// <returns>Size with list of Clothes</returns>
         public Task<Size> GetClothesByIdSize(int id)
         {
             return repository.GetClothesByIdSize(id);
@@ -90,6 +100,11 @@ namespace ClothesStoreAPI.Service.Sizes
         }
 
 
+        /// <summary>
+        /// Check if the data of Size object is valid to do the insert
+        /// </summary>
+        /// <param name="size">Size object to check</param>
+        /// <returns>string msg with the response to give</returns>
         private string CheckSizeData(Size size)
         {
             string msg = "Success";
