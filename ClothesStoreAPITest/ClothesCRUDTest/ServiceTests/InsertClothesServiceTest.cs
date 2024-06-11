@@ -8,6 +8,11 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.ServiceTests
     public class InsertClothesServiceTest
     {
 
+
+        /// <summary>
+        /// Check if the service return the correctly answer in the case
+        /// of successful insert
+        /// </summary>
         [Fact]
         public async void InsertClothes_ShouldInsertClothesCorrectly()
         {
@@ -35,6 +40,16 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.ServiceTests
 
 
 
+        /// <summary>
+        /// Check different validations in the Clothes data
+        /// and its responses when fail doing insert
+        /// </summary>
+        /// <param name="name">string with the name of Clothes</param>
+        /// <param name="idColor">int with the icColor in Clothes</param>
+        /// <param name="idSize">int with the idSize in Clothes</param>
+        /// <param name="price">double with the price of Clothes</param>
+        /// <param name="description">string with the description of Clothes</param>
+        /// <param name="expectedErrorMsg">string with the expected error msg</param>
         [Theory]
         [InlineData("Lorem ipsum", 1, 1, -88.88, "Lorem ipsum dolor sit amet, consectetur",
             "Invalid price")

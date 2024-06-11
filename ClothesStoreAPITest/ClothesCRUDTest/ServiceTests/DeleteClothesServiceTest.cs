@@ -6,6 +6,10 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.ServiceTests
 {
     public class DeleteClothesServiceTest
     {
+        /// <summary>
+        /// Check if the service return the correctly answer in the case
+        /// of successful delete
+        /// </summary>
         [Fact]
         public async void DeleteClothes_ShouldDeleteClothesCorrectly()
         {
@@ -28,6 +32,11 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.ServiceTests
             Assert.Equal(expectedResult, actualResult);
         }
 
+
+        /// <summary>
+        /// Check if the service return NotFound in case of find an inexistent
+        /// id at the DB
+        /// </summary>
         [Fact]
         public async void DeleteClothes_ShouldReturnNotFound()
         {

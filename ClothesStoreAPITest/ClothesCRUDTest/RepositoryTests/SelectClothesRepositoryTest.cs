@@ -11,6 +11,10 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.RepositoryTests
 {
     public class SelectClothesRepositoryTest
     {
+
+        /// <summary>
+        /// Check if the getClothes method return all of the records at table
+        /// </summary>
         [Fact]
         public void GetAllClothes_ShouldReturnAllClothes()
         {
@@ -40,6 +44,12 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.RepositoryTests
         }
 
 
+        /// <summary>
+        /// Check if the finter to find clothes works correctly
+        /// </summary>
+        /// <param name="nameToFind">string with the name to find</param>
+        /// <param name="expectedQuantity">int with the expected quantity of articles</param>
+        /// <returns></returns>
         [Theory]
         [InlineData("a", 1)]
         [InlineData("sh", 2)]
@@ -68,6 +78,11 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.RepositoryTests
         }
 
 
+        /// <summary>
+        /// configure the mockset to simulate access to the database
+        /// </summary>
+        /// <param name="clothesAtDB">IQueryable<Clothes> with the list of clothes</param>
+        /// <param name="mockSet">Mock<DbSet<Clothes>> to configure</param>
         private static void SetupMockSet(IQueryable<Clothes> clothesAtDB, Mock<DbSet<Clothes>> mockSet)
         {
             mockSet.As<IDbAsyncEnumerable<Clothes>>()
@@ -84,6 +99,10 @@ namespace ClothesStoreAPITest.ClothesCRUDTest.RepositoryTests
         }
 
 
+        /// <summary>
+        /// sets the list of clothes that are supposed to be in the database
+        /// </summary>
+        /// <returns> IQueryable<Clothes> with the fake list</returns>
         private static IQueryable<Clothes> SetupCLothesAtDB()
         {
             return new List<Clothes>

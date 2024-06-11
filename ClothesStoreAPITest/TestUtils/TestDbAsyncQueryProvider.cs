@@ -4,6 +4,10 @@ using System.Linq.Expressions;
 namespace ClothesStoreAPITest.TestUtils
 {
 
+    /// <summary>
+    /// This class is necessary to be able to correctly Mock the database with Moq
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;

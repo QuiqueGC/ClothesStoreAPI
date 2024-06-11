@@ -13,10 +13,13 @@ namespace ClothesStoreAPITest.DITest
 {
     public class DITest
     {
+
+        /// <summary>
+        /// Check if the DI is configured correctly
+        /// </summary>
         [Fact]
         public void DependenciesTest_ShouldBeInjected()
         {
-
             // Arrange
             Mock<IClothesStoreEntities> mockClothesStoreEntites = new();
             Mock<IColorsRepository> mockColorsRepository = new();
