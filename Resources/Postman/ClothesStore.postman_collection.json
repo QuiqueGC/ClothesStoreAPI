@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "938452df-0fa0-4160-9dae-2fd335f8d238",
+		"name": "ClothesStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33371895"
+	},
+	"item": [
+		{
+			"name": "Clothes",
+			"item": [
+				{
+					"name": "clothes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clothes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "clothesById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clothes/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clothes/name/a",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothes",
+								"name",
+								"a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutClothes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 7,\r\n    \"name\": \"Abrigo de plumas\",\r\n    \"idColor\": 2,\r\n    \"idSize\": 1,\r\n    \"price\": 50.89,\r\n    \"description\": \"The winter is coming\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Clothes/7",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Clothes",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostClothes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Abrigo de plumas\",\r\n    \"idColor\": 1,\r\n    \"idSize\": 1,\r\n    \"price\": 50.89,\r\n    \"description\": \"The winter is coming\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Clothes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Clothes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteClothes",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clothes/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ClothesDeleted",
+			"item": [
+				{
+					"name": "GetClothesDeleted",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clothesDeleted",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothesDeleted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RestoreClothes",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clothesDeleted/restore/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothesDeleted",
+								"restore",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clothesDeleted/name/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clothesDeleted",
+								"name",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Colors",
+			"item": [
+				{
+					"name": "GetColors",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GetColorsById",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GetClothesByIdColor",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "PutColors",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"azulito\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/colors/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"colors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostColors",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"verde claro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Colors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Colors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteColors",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Colors/7",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Colors",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sizes",
+			"item": [
+				{
+					"name": "GetSizes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Sizes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Sizes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSizeById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Sizes/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Sizes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetClothesByIdSize",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "PutSize",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"value\": \"M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Sizes/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Sizes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostSize",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": \"XS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Sizes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Sizes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSize",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Sizes/7",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Sizes",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:49560/api/",
+			"type": "string"
+		}
+	]
+}
