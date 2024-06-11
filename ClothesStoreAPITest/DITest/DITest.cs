@@ -18,15 +18,15 @@ namespace ClothesStoreAPITest.DITest
         {
 
             // Arrange
-            var mockClothesStoreEntites = new Mock<IClothesStoreEntities>();
-            var mockColorsRepository = new Mock<IColorsRepository>();
-            var mockSizesRepository = new Mock<ISizesRepository>();
-            var mockClothesRepository = new Mock<IClothesRepository>();
-            var mockClothesDeletedRepository = new Mock<IClothesDeletedRepository>();
-            var mockColorsService = new Mock<IColorsService>();
-            var mockClothesService = new Mock<IClothesService>();
-            var mockSizesService = new Mock<ISizesService>();
-            var mockClothesDeletedService = new Mock<IClothesDeletedService>();
+            Mock<IClothesStoreEntities> mockClothesStoreEntites = new();
+            Mock<IColorsRepository> mockColorsRepository = new();
+            Mock<ISizesRepository> mockSizesRepository = new();
+            Mock<IClothesRepository> mockClothesRepository = new();
+            Mock<IClothesDeletedRepository> mockClothesDeletedRepository = new();
+            Mock<IColorsService> mockColorsService = new();
+            Mock<IClothesService> mockClothesService = new();
+            Mock<ISizesService> mockSizesService = new();
+            Mock<IClothesDeletedService> mockClothesDeletedService = new();
 
             // Act
             IClothesStoreEntities clothesStoreEntities = mockClothesStoreEntites.Object;

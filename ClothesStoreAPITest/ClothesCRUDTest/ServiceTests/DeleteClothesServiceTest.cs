@@ -1,16 +1,10 @@
-﻿using ClothesStoreAPI.Models;
-using ClothesStoreAPI.Repository.DB.Clothes;
+﻿using ClothesStoreAPI.Repository.DB.Clothes;
 using ClothesStoreAPI.Service.Clothes;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ClothesStoreAPITest.ClothesCRUDTest
+namespace ClothesStoreAPITest.ClothesCRUDTest.ServiceTests
 {
-    public class DeleteClothesTest
+    public class DeleteClothesServiceTest
     {
         [Fact]
         public async void DeleteClothes_ShouldDeleteClothesCorrectly()

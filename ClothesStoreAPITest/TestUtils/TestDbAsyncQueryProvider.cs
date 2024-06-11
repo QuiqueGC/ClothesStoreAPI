@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
+﻿using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace ClothesStoreAPITest.ClothesCRUDTest
+namespace ClothesStoreAPITest.TestUtils
 {
 
     internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider

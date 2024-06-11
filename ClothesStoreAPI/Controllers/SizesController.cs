@@ -126,6 +126,13 @@ namespace ClothesStoreAPI.Controllers
         }
 
 
+        /// <summary>
+        /// sets the variable IHttpActionResult that the function will return
+        /// depending on the msg provided by the service
+        /// </summary>
+        /// <param name="msg">String with the msg (Success, NotFound...)</param>
+        /// <param name="objectResult">Object that will be at the body of the response</param>
+        /// <returns>IHttpActionResult response with its body (in the chase of having it)</returns>
         private IHttpActionResult SetResultFromMsg(String msg, Object objectResult)
         {
             IHttpActionResult result;
@@ -143,7 +150,6 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
-
 
 
         protected override void Dispose(bool disposing)

@@ -17,11 +17,13 @@ namespace ClothesStoreAPI.Controllers
             this.service = service;
         }
 
+
         // GET: api/Colors
         public IQueryable<Colors> GetColors()
         {
             return service.GetColors();
         }
+
 
         // GET: api/Colors/5
         [ResponseType(typeof(Colors))]
@@ -94,9 +96,6 @@ namespace ClothesStoreAPI.Controllers
         }
 
 
-
-
-
         // POST: api/Colors
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> PostColors(Colors colors)
@@ -116,8 +115,6 @@ namespace ClothesStoreAPI.Controllers
         }
 
 
-
-
         // DELETE: api/Colors/5
         [ResponseType(typeof(Colors))]
         public async Task<IHttpActionResult> DeleteColors(int id)
@@ -127,7 +124,13 @@ namespace ClothesStoreAPI.Controllers
         }
 
 
-
+        /// <summary>
+        /// sets the variable IHttpActionResult that the function will return
+        /// depending on the msg provided by the service
+        /// </summary>
+        /// <param name="msg">String with the msg (Success, NotFound...)</param>
+        /// <param name="objectResult">Object that will be at the body of the response</param>
+        /// <returns>IHttpActionResult response with its body (in the chase of having it)</returns>
         private IHttpActionResult SetResult(String msg, Object objectResult)
         {
             IHttpActionResult result;
@@ -145,7 +148,6 @@ namespace ClothesStoreAPI.Controllers
             }
             return result;
         }
-
 
 
         protected override void Dispose(bool disposing)

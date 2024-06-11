@@ -233,7 +233,7 @@
     <Compile Include="Repository\DB\Colors\IColorsRepository.cs" />
     <Compile Include="Repository\DB\Sizes\ISizesRepository.cs" />
     <Compile Include="Repository\DB\Sizes\SizesRepository.cs" />
-    <Compile Include="Repository\DB\Utils\ErrorMessageManager.cs" />
+    <Compile Include="Repository\DB\RepositoryUtils\ErrorMessageManager.cs" />
     <Compile Include="Service\ClothesDeleted\ClothesDeletedService.cs" />
     <Compile Include="Service\ClothesDeleted\IClothesDeletedService.cs" />
     <Compile Include="Service\Clothes\ClothesService.cs" />
