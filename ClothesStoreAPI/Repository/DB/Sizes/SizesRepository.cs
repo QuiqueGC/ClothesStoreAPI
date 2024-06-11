@@ -29,6 +29,11 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+        /// <summary>
+        /// get the size and a list of clothes filtered by its id
+        /// </summary>
+        /// <param name="id">int with idSize to filter</param>
+        /// <returns>Size object with list of Clothes</returns>
         public async Task<Size> GetClothesByIdSize(int id)
         {
             return await db.Size
@@ -66,12 +71,23 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+        /// <summary>
+        /// Check if there are a record of Size
+        /// with exactly the same value at DB
+        /// </summary>
+        /// <param name="sizeValue">Size object to check</param>
+        /// <returns>true if found, false if dont</returns>
         public bool SizeValueAlreadyExist(string sizeValue)
         {
             return db.Size.Count(c => c.value == sizeValue) > 0;
         }
 
 
+        /// <summary>
+        /// Check if exists a Size object with the id passed by parameters
+        /// </summary>
+        /// <param name="id">int with id to check</param>
+        /// <returns>true if exists, false if not</returns>
         public bool SizeExists(int id)
         {
             return db.Size.Count(e => e.id == id) > 0;

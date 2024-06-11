@@ -18,22 +18,32 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+
         public IQueryable<Models.ClothesDeleted> GetClothesDeleted()
         {
             return db.ClothesDeleted;
         }
 
 
+        /// <summary>
+        /// get a list of clothesDeleted filtered by name
+        /// </summary>
+        /// <param name="name">string with the name to find</param>
+        /// <returns>list of clothesDeleted</returns>
         public async Task<List<Models.ClothesDeleted>> FindClothesDeletedByName(string name)
         {
-            List<Models.ClothesDeleted> clothesDeleted = await db.ClothesDeleted
+            return await db.ClothesDeleted
                 .Where(c => c.name.Contains(name))
                 .ToListAsync();
-
-            return clothesDeleted;
         }
 
 
+        /// <summary>
+        /// deletes the record from the clothesDeleted table based
+        /// on the id and inserts it into the clothes table with a new id
+        /// </summary>
+        /// <param name="id">int with ID of the record</param>
+        /// <returns>String with the msg resulting of the operation(Success, NotFound...)</returns>
         public async Task<String> RestoreClothesDeleted(int id)
         {
             Models.ClothesDeleted clothesDeleted = await db.ClothesDeleted.FindAsync(id);
@@ -53,6 +63,11 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+        /// <summary>
+        /// Check if exists a ClothesDeleted object with the id passed by parameters
+        /// </summary>
+        /// <param name="id">int with id to check</param>
+        /// <returns>true if exists, false if not</returns>
         public bool ClothesDeletedExists(int id)
         {
             return db.ClothesDeleted.Count(c => c.id == id) > 0;

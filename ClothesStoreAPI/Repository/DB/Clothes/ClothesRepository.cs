@@ -17,6 +17,7 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+
         public IQueryable<Models.Clothes> GetClothes()
         {
             return db.Clothes;
@@ -33,13 +34,16 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+        /// <summary>
+        /// get a list of clothes filtered by name
+        /// </summary>
+        /// <param name="name">string with the name to find</param>
+        /// <returns>list of clothes</returns>
         public async Task<List<Models.Clothes>> FindClothesByName(string name)
         {
-            List<Models.Clothes> clothes = await db.Clothes
+            return await db.Clothes
                 .Where(c => c.name.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
-
-            return clothes;
         }
 
 
@@ -65,6 +69,12 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+        /// <summary>
+        /// Check if there are a record of Clothes
+        /// with exactly the same data at DB
+        /// </summary>
+        /// <param name="clothes">CLothes object to check</param>
+        /// <returns>true if found, false if dont</returns>
         public bool ClothesAlreadyExist(Models.Clothes clothes)
         {
             return db.Clothes.Count(
@@ -77,6 +87,11 @@ namespace ClothesStoreAPI.Repository.DB
         }
 
 
+        /// <summary>
+        /// Check if exists a Clothes object with the id passed by parameters
+        /// </summary>
+        /// <param name="id">int with id to check</param>
+        /// <returns>true if exists, false if not</returns>
         public bool ClothesExists(int id)
         {
             return db.Clothes.Count(c => c.id == id) > 0;

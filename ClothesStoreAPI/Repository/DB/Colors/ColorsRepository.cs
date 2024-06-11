@@ -28,6 +28,11 @@ namespace ClothesStoreAPI.Repository.DBManager
         }
 
 
+        /// <summary>
+        /// get the color and a list of clothes filtered by its id
+        /// </summary>
+        /// <param name="id">int with idColor to filter</param>
+        /// <returns>Color with list of Clothes</returns>
         public async Task<Colors> GetClothesByIdColor(int id)
         {
             return await db.Colors
@@ -65,12 +70,23 @@ namespace ClothesStoreAPI.Repository.DBManager
         }
 
 
+        /// <summary>
+        /// Check if exists a Colors object with the id passed by parameters
+        /// </summary>
+        /// <param name="id">int with id to check</param>
+        /// <returns>true if exists, false if not</returns>
         public bool ColorsExists(int id)
         {
             return db.Colors.Count(c => c.id == id) > 0;
         }
 
 
+        /// <summary>
+        /// Check if there are a record of Colors
+        /// with exactly the same name at DB
+        /// </summary>
+        /// <param name="colorName">Colors object to check</param>
+        /// <returns>true if found, false if dont</returns>
         public bool ColorNameAlreadyExist(String colorName)
         {
             return db.Colors.Count(c => c.name == colorName) > 0;
