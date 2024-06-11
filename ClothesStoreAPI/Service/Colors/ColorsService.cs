@@ -113,6 +113,10 @@ namespace ClothesStoreAPI.Service.Colors
             {
                 msg = "Empty name";
             }
+            else if (nameColorToSave.Length > 50)
+            {
+                msg = "Name too long";
+            }
             else
             {
                 colors.name = nameColorToSave;

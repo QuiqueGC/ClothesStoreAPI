@@ -114,6 +114,10 @@ namespace ClothesStoreAPI.Service.Sizes
             {
                 msg = "Empty name";
             }
+            else if (valueSizeToSave.Length > 7)
+            {
+                msg = "Value too long";
+            }
             else
             {
                 size.value = valueSizeToSave;
